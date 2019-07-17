@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ly.mapper.CustomerMapper">
+
+    <resultMap id="infoMap" type="com.ly.entity.CustomerEntity">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="actSource" column="act_source"/>
+        <result property="status" column="status"/>
+        <result property="createSource" column="create_source"/>
+        <result property="createTime" column="create_time"/>
+        <result property="buyIntention" column="buy_intention"/>
+        <result property="managerId" column="manager_id"/>
+        <result property="managerName" column="manager_name"/>
+        <result property="cityCode" column="cityCode"/>
+        <result property="cityName" column="cityName"/>
+        <result property="actSourceId" column="act_source_id"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="bindTime" column="bind_time"/>
+        <result property="isWaitCall" column="isWaitCall"/>
+    </resultMap>
+
+    <select id="queryById" resultMap="infoMap" parameterType="int">
+        SELECT
+         *
+        FROM customer
+        WHERE
+        id = #{id}
+    </select>
+
+    <select id="queryCity" resultType="String">
+        SELECT
+         cityCode
+        FROM customer
+        WHERE
+        is_delete = 0
+        group by cityCode
+    </select>
+
+    <select id="queryCount" resultType="java.util.HashMap" parameterType="map">
+        SELECT
+            cityCode,
+            phone,
+            manager_id as managerId,
+            manager_name as managerName,
+            COUNT(*) as count
+        FROM
+             customer
+        WHERE
+            manager_id IS NOT NULL
+            AND is_delete = 0
+        GROUP BY manager_id
+    </select>
+
+    <select id="queryByManagerId" resultType="java.util.HashMap" parameterType="map">
+        SELECT
+        phone,
+        manager_id,
+        manager_name
+        FROM
+        customer
+        WHERE
+        manager_id IS NOT NULL
+        AND is_delete = 0
+        AND (isWaitCall = 0 OR isWaitCall is null)
+        AND (status = 0 OR status = 11)
+        AND (bind_time BETWEEN #{startTime} AND #{endTime})
+        <if test="managerId != null and managerId != ''">
+            AND manager_id = #{managerId}
+        </if>
+        <if test="idList != null and idList.size() > 0 ">
+            AND manager_id in
+            <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="type != null and type != '' ">
+            AND buy_intention IS NOT NULL
+            AND (buy_intention = '1' OR buy_intention = '2')
+        </if>
+    </select>
+
+    <select id="queryCustomerLog" resultType="java.util.HashMap" parameterType="map">
+        SELECT
+        c.phone AS phone,
+        c.manager_id AS managerId,
+        c.id AS customerId
+        FROM customer_callback_log cl
+        LEFT JOIN customer c ON c.id = cl.customer_id
+        WHERE c.manager_id IS NOT NULL
+        AND c.is_delete = 0
+        AND (c.isWaitCall = 0 OR c.isWaitCall is null)
+        AND (c.status = 0 OR c.status = 11)
+        <if test="managerId != null and managerId != ''">
+            AND cl.manager_id = #{managerId}
+        </if>
+        <if test="idList != null and idList.size() > 0 ">
+            AND cl.manager_id in
+            <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        AND (cl.create_time BETWEEN #{startTime} AND #{endTime})
+    </select>
+
+    <select id="queryCustomerByStatus" resultType="java.util.HashMap" parameterType="map">
+        SELECT
+        cl.customer_id,
+        cl.customerManagerId,
+        cl.from_status_id,
+        c.phone
+        FROM customer_status_log cl
+        INNER JOIN customer c ON c.id = cl.customer_id
+        WHERE customerManagerId IS NOT NULL
+        AND c.is_delete = 0
+        AND (c.isWaitCall = 0 OR c.isWaitCall is null)
+        AND (c.status = 0 OR c.status = 11)
+        AND cl.is_delete = 0
+        AND cl.to_status_id = #{status}
+        <if test="managerId != null and managerId != ''">
+            AND cl.customerManagerId = #{managerId}
+        </if>
+        <if test="idList != null and idList.size() > 0 ">
+            AND cl.customerManagerId in
+            <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="status != null and status == 1">
+            AND (cl.create_time BETWEEN #{startTime} AND #{endTime})
+        </if>
+        <if test="status != null and status > 1">
+            AND (cl.occur_time BETWEEN #{startTime} AND #{endTime})
+        </if>
+    </select>
+
+    <select id="queryAllByCity" resultMap="infoMap" parameterType="map">
+        SELECT
+              act_source,
+              id,
+              cityCode
+        FROM
+            customer
+        WHERE
+            manager_id IS NOT NULL
+            AND is_delete = 0
+            AND act_source is NOT NULL
+            limit 10000
+    </select>
+
+    <select id="queryByCondition" resultType="string" parameterType="map">
+        SELECT
+            phone
+        FROM
+            customer
+        WHERE
+            manager_id IS NOT NULL
+            AND is_delete = 0
+            AND act_source like CONCAT('', #{actSource},'%')
+    </select>
+
+    <select id="queryBySource" resultType="java.util.HashMap" parameterType="map">
+        SELECT
+            manager_id as managerId,
+            id as customerId,
+            phone
+        FROM
+            customer
+        WHERE
+            manager_id IS NOT NULL
+            AND is_delete = 0
+            AND (isWaitCall = 0 OR isWaitCall is null)
+            AND (status = 0 OR status = 11)
+            AND (bind_time BETWEEN #{startTime} AND #{endTime})
+            <if test="actSource != null and actSource != '' ">
+                AND act_source = #{actSource}
+            </if>
+            AND cityCode = #{cityCode}
+            <if test="createSource != null and createSource != '' ">
+                AND (create_source = 'HOTLINE' OR create_source LIKE 'CRM%')
+            </if>
+            GROUP by phone
+    </select>
+
+    <select id="queryCustomerLogBySource" resultType="java.util.HashMap" parameterType="map">
+        SELECT
+          ccl.customer_id,
+          c.phone
+        FROM  customer_callback_log ccl
+          LEFT JOIN customer c ON c.id = ccl.customer_id
+        WHERE
+            c.manager_id IS NOT NULL
+            AND c.is_delete = 0
+            AND (c.isWaitCall = 0 OR c.isWaitCall is null)
+            AND (c.status = 0 OR c.status = 11)
+            AND (c.bind_time BETWEEN #{startTime} AND #{endTime})
+            <if test="actSource != null and actSource != '' ">
+                AND c.act_source = #{actSource}
+            </if>
+            AND c.cityCode = #{cityCode}
+            <if test="createSource != null and createSource != '' ">
+                AND (c.create_source = 'HOTLINE' OR c.create_source LIKE 'CRM%')
+            </if>
+        GROUP BY  c.phone
+    </select>
+
+    <select id="queryByStatusAndSource" resultType="java.util.HashMap" parameterType="map">
+        SELECT
+            cs.customer_id,
+            c.phone
+        FROM  customer_status_log cs
+           LEFT JOIN customer c ON c.id = cs.customer_id
+        WHERE
+            c.manager_id IS NOT NULL
+            AND c.is_delete = 0
+            AND (c.isWaitCall = 0 OR c.isWaitCall is null)
+            AND (c.status = 0 OR c.status = 11)
+            AND (c.bind_time BETWEEN #{startTime} AND #{endTime})
+            <if test="actSource != null and actSource != '' ">
+                AND c.act_source = #{actSource}
+            </if>
+            AND c.cityCode = #{cityCode}
+            AND cs.to_status_id = #{status}
+            <if test="createSource != null and createSource != '' ">
+                AND (c.create_source = 'HOTLINE' OR c.create_source LIKE 'CRM%')
+            </if>
+            AND cs.is_delete = 0
+            <if test="status != null and status == 1">
+                AND (cs.create_time BETWEEN #{startTime} AND #{endTime})
+            </if>
+            <if test="status != null and status > 1">
+                AND (cs.occur_time BETWEEN #{startTime} AND #{endTime})
+            </if>
+            GROUP BY c.phone
+    </select>
+
+    <select id="querySource" resultType="java.util.HashMap">
+        SELECT
+          act_source as actSource,
+          cityCode
+        FROM customer
+    </select>
+
+    <select id="querySourceName" resultType="String">
+        SELECT
+        source_name
+        FROM source_info
+    </select>
+
+    <select id="queryBySourceNew" resultType="java.util.HashMap" parameterType="map">
+        SELECT
+        manager_id as managerId,
+        id as customerId,
+        phone
+        FROM
+        customer
+        WHERE
+        1 = 1
+        <if test="actSource != null and actSource != '' ">
+            AND act_source = #{actSource}
+        </if>
+        AND cityCode = #{cityCode}
+        <if test="createSource != null and createSource != '' ">
+            AND create_source = 'HOTLINE'
+        </if>
+        GROUP by phone
+    </select>
+
+    <select id="queryCustomerLogBySourceNew" resultType="java.util.HashMap" parameterType="map">
+        SELECT
+        ccl.customer_id,
+        c.phone
+        FROM  customer_callback_log ccl
+        LEFT JOIN customer c ON c.id = ccl.customer_id
+        WHERE
+        c.cityCode = #{cityCode}
+        <if test="actSource != null and actSource != '' ">
+            AND c.act_source = #{actSource}
+        </if>
+        <if test="createSource != null and createSource != '' ">
+            AND c.create_source = 'HOTLINE'
+        </if>
+        GROUP BY  c.phone
+    </select>
+
+    <select id="queryByStatusAndSourceNew" resultType="java.util.HashMap" parameterType="map">
+        SELECT
+        cs.customer_id,
+        c.phone
+        FROM  customer_status_log cs
+        LEFT JOIN customer c ON c.id = cs.customer_id
+        WHERE
+        cs.is_delete = 0
+        AND c.cityCode = #{cityCode}
+        AND cs.to_status_id = #{status}
+        <if test="actSource != null and actSource != '' ">
+            AND c.act_source = #{actSource}
+        </if>
+        <if test="createSource != null and createSource != '' ">
+            AND c.create_source = 'HOTLINE'
+        </if>
+        <if test="status != null and status == 1">
+            AND (cs.create_time BETWEEN #{startTime} AND #{endTime})
+        </if>
+        <if test="status != null and status > 1">
+            AND (cs.occur_time BETWEEN #{startTime} AND #{endTime})
+        </if>
+        GROUP BY c.phone
+    </select>
+
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ly.mapper.ZlUserMapper">
+
+    <resultMap id="infoMap" type="com.ly.entity.ZlUser">
+        <result property="id" column="id"/>
+        <result property="sex" column="sex"/>
+        <result property="userName" column="user_name"/>
+        <result property="integral" column="integral"/>
+        <result property="mobile" column="mobile"/>
+        <result property="price" column="price"/>
+        <result property="createNo" column="create_no"/>
+        <result property="createName" column="create_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateNo" column="update_no"/>
+        <result property="updateName" column="update_name"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isValid" column="is_valid"/>
+        <result property="birthDate" column="birth_date"/>
+    </resultMap>
+
+    <!-- 批量插入商户基础数据数据 -->
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.ly.entity.ZlUser">
+        INSERT INTO zl_user (
+          sex,user_name,integral,mobile,price,create_no,
+          create_name,create_time,update_no,update_name,update_time,birth_date
+        )
+        VALUES(
+            #{sex},#{userName},#{integral},#{mobile},#{price},#{createNo},
+            #{createName},#{createTime},#{updateNo},#{updateName},#{updateTime},#{birthDate}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.ly.entity.ZlUser">
+       UPDATE zl_user
+         SET
+         user_name = #{userName},
+         mobile = #{mobile},
+         integral = #{integral},
+         price = #{price}
+       WHERE id = #{id}
+    </update>
+
+    <select id="queryByCondition" resultMap="infoMap" parameterType="com.ly.entity.ZlUser">
+        SELECT *
+        FROM zl_user
+        where is_valid = 0
+        <if test="userName != null and userName !='' ">
+            AND user_name LIKE CONCAT('%',#{userName},'%')
+        </if>
+        <if test="mobile != null and mobile !='' ">
+            AND mobile LIKE CONCAT('%',#{mobile},'%')
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="getById" resultMap="infoMap" parameterType="Integer">
+        SELECT *
+          FROM zl_user
+        where is_valid = 0
+          AND id = #{id}
+    </select>
+
+    <update id="deleteZlUser" parameterType="com.ly.entity.ZlUser">
+        UPDATE zl_user
+        SET is_valid = 1
+        WHERE id = #{id}
+    </update>
+
+</mapper>

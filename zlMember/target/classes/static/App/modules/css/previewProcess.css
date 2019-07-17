@@ -1,0 +1,60 @@
+.content.flow{
+    /*overflow: hidden;*/
+    width: 600px;
+    padding: 3px 3px 3px 115px;
+
+}
+ul.flow > li{
+    position: relative;
+    border-radius: 3px;
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.14);
+    padding: 10px;
+    background-color: #fff;
+    color: #999;
+    margin-top: 15px;
+}
+ul.flow > li:first-child {
+    margin-top: 0px;
+}
+ul.flow > li p{
+    line-height: 24px;
+}
+ul.flow > li:before{
+    content: '';
+    width: 22px;
+    height: 22px;
+    background-image: url('../imgs/progress-will.png');
+    background-size: 22px 22px;
+    position: absolute;
+    left: -62px;
+}
+ul.flow >  li.isHandled:before {
+    background-image: url('../imgs/progress-success.png');
+}
+ul.flow >  li.isHandled.currentHandle:before {
+    background-image: url('../imgs/progress-already.png');
+}
+ul.flow > li:after{
+    content: '';
+    height: 100%;
+    width: 2px;
+    background-color: #bfbfbf;
+    position: absolute;
+    left: -52px;
+    top: 32px;
+}
+ul.flow > li.isHandled:after{
+    background-color: #1ab394;
+}
+
+ul.flow > li.withoutAfter:after{
+    height: 0;
+}
+
+ul.flow > li.isHandled {
+    color: black;
+}
+ul.flow > li.isHandled.currentHandle {
+    color: #1ab394;
+    box-shadow: 0 0 3px 1px rgb(26,179,148);
+}

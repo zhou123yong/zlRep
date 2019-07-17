@@ -1,0 +1,542 @@
+<style>
+    .fill-wrapper {width:299px;  }
+    .fill-line > div.cus-margin {
+        margin-left: 0px;
+    }
+
+    #customerAdd li select,#customerAdd .ul-one li input ,.one-line input{
+        height: 34px;padding: 7px 7px;
+    }
+    #customerAdd li textarea{
+        height: 34px;width: 498px;padding: 7px 7px;
+    }
+    .select2-selection--multiple{
+        line-height: 22px ;
+    }
+    .fill-line > div.one-line {
+        margin-left: -4px;
+    }
+    .dialog2-alert .dialog2-content{
+        margin-left: -212px !important;
+        margin-top: -67px !important;
+        margin-bottom: 0px !important;
+        top: 40% !important;
+        width: 400px !important;
+    }
+    .pic_con{padding:10px;position:relative}
+    .pic_lists{width:1000px;float:left;overflow:hidden;position:absolute;top:0px;left:0px}
+    .btn_change{position:absolute;text-indent:-9999px;cursor:pointer}
+    .left_btn{width: 20px;background:url(App/modules/imgs/left.png) no-repeat;top:6px;left:-10px}
+    .right_btn{width: 20px;background:url(App/modules/imgs/right.png) no-repeat;top:6px;right:0px}
+    .left_btn2{width: 20px;background:url(App/modules/imgs/left2.png) no-repeat;top:6px;left:-10px}
+    .right_btn2{width: 20px;background:url(App/modules/imgs/right2.png) no-repeat;top:6px;right:0px}
+
+    .pic_content{overflow:hidden;loat:left;padding:10px;position:relative;width: 114px;height: 36px}
+    .pic_content ul li{float:left;text-align:center;margin:0 0 0 10px;position:relative}
+    .pic_content ul li p{background:#333;color:#fff;position:absolute;bottom:2px;left:2px;text-align:center;display:none}
+    .pic_content ul li a img{}
+
+    .highlight_tip{width:50%;position:relative;margin:0 auto;top: -15px;left: 20%;}
+    .highlight_tip span{height:24px;padding:5px;line-height:24px;float:left;margin:0 2px;cursor:pointer}
+    .highlight_tip span.current{height:18px;width:18px;line-height:18px;background:#9CC;text-align:center}
+</style>
+<form class="form-horizontal" role="form" ng-submit="saveBigCustomer()">
+    <div class="form-group" style=" width:80%;text-align: center">
+        <label  class="col-sm-2 control-label"><label style="color: red;">*</label>商户名称：</label>
+        <div class="col-sm-4">
+            <select style="width: 100%;" class="form-control" id="customerId"></select>
+        </div>
+        <div  class="col-sm-3">
+            <div style="display:inline-block;vertical-align: middle;color: red">
+                未找到商户？
+            </div>
+            <button type="button" ng-click="openAddCustomer()" class="btn-sm fa ">点击新增</button>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-show="customer.customerTypeName !='个人'">
+        <label  class="col-sm-2 control-label">注册号：</label>
+        <div class="col-sm-4">
+            <input type="text" class="fill-item" ng-model="customer.taxRegisterNo" style="background: #f5f5f5;" placeholder="请选择商户" disabled>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-show="customer.customerTypeName =='个人'">
+        <label  class="col-sm-2 control-label">身份证：</label>
+        <div class="col-sm-4">
+            <input type="text" class="fill-item" ng-model="customer.identityCardNo" style="background: #f5f5f5;" placeholder="请选择商户" readonly>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center">
+        <label  class="col-sm-2 control-label"><label style="color: red">*</label>签约项目：</label>
+        <div class="col-sm-4" ng-if="signProject.length == 1">
+            <input type="text" class="fill-item" value="{{signProject[0].projectName}}" style="background: #f5f5f5;" placeholder="请从首页重新进入" readonly >
+        </div>
+        <div class="col-sm-4" ng-if="signProject.length > 1" id="signProjectSelect">
+            <select class="fill-item" ng-model="bigCustomer.projectId" ng-options="value.projectId as value.projectName for (key, value) in signProject">
+            </select>
+        </div>
+
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-show="customer.isInside==1">
+        <label  class="col-sm-2 control-label"><label style="color: red">*</label>内部供应商名：</label>
+        <div class="col-sm-4">
+            <input class="fill-item" type="text" ng-model="bigCustomer.insideName" id="insideName" >
+        </div>
+    </div>
+
+
+    <div class="form-group" style=" width:80%;text-align: center">
+        <label  class="col-sm-2 control-label">经营性质：</label>
+        <div class="col-sm-4">
+            <input type="text" class="fill-item" value="{{customer.businessNatureName==null?'无':customer.businessNatureName}}" style="background: #f5f5f5;" placeholder="请选择商户" readonly>
+        </div>
+
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-show="customer.isAbroad !=null">
+        <label  class="col-sm-2 control-label">国内/国外公司：</label>
+        <div class="col-sm-4">
+            <select class="fill-item" ng-model="customer.isAbroad" ng-selected="customer.isAbroad" id="isAbroad"
+                    ng-change="changeAbroad()">
+                <option value="0">国内</option>
+                <option value="1">国外</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-show="customer.isAbroad==null">
+        <label  class="col-sm-2 control-label">国内/国外地址：</label>
+        <div class="col-sm-10" >
+            <input type="text" class="fill-item"  style="background: #f5f5f5;" placeholder="国内/国外地址"  readonly>
+        </div>
+    </div>
+
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-if="customer.isAbroad == '0'">
+        <label  class="col-sm-2 control-label"><label style="color: red">*</label>省：</label>
+        <div class="col-sm-4">
+            <select class="fill-item"
+                    ng-change="loadCityList1();provinceChange()"
+                    ng-model="customer.provinceId" id="provinceInner"
+                    required>
+                <option value="" >--请选择--</option>
+                <option ng-repeat=" province in provinceList" value="{{province.id}}">
+                    {{province.name}}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-if="customer.isAbroad == '0'">
+        <label  class="col-sm-2 control-label"><label style="color: red">*</label>市：</label>
+        <div class="col-sm-4">
+            <select class="fill-item"
+                    ng-change="loadCountyList1();cityChange()"
+                    ng-model="customer.cityId" id="cityInner"
+                    required>
+                <option value="" >--请选择--</option>
+                <option  ng-repeat="city in cityList" value="{{city.id}}" >{{city.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-if="customer.isAbroad == '0'">
+        <label  class="col-sm-2 control-label">区：</label>
+        <div class="col-sm-4">
+            <select class="fill-item"
+                    ng-model="customer.countyId" id="countyInner">
+                <option value="" >--请选择--</option>
+                <option  ng-repeat="county in countyList" value="{{county.id}}">{{county.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-if="customer.isAbroad == '1'">
+        <label  class="col-sm-2 control-label"><label style="color: red">*</label>洲：</label>
+        <div class="col-sm-4">
+            <select class="fill-item"
+                    ng-change="loadCountryList1();continentChange()" id="continent"
+                    ng-model="customer.continentId"
+            >
+                <option value="" >--请选择--</option>
+                <option ng-repeat="continent in continentList" value="{{continent.id}}" >{{continent.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-if="customer.isAbroad == '1'">
+        <label  class="col-sm-2 control-label"><label style="color: red">*</label>国家：</label>
+        <div class="col-sm-4">
+            <select class="fill-item"
+                    ng-change="loadStateList1();countryChange()"
+                    ng-model="customer.countryId" id="country"
+            >
+                <option value="" >--请选择--</option>
+                <option  ng-repeat="country in countryList" value="{{country.id}}" >{{country.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-if="customer.isAbroad == '1'">
+        <label  class="col-sm-2 control-label"><label style="color: red">*</label>省：</label>
+        <div class="col-sm-4">
+            <select class="fill-item"
+                    ng-change="loadCityList1();provinceChange()"
+                    ng-model="customer.provinceId" id="province"
+            >
+                <option value="" >--请选择--</option>
+                <option  ng-repeat="province in provinceList" value="{{province.id}}" >{{province.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-if="customer.isAbroad == '1'">
+        <label  class="col-sm-2 control-label">市：</label>
+        <div class="col-sm-4">
+            <select class="fill-item"
+                    ng-change="loadTownList1();cityChange()"
+                    ng-model="customer.cityId" id="city">
+                <option value="" >--请选择--</option>
+                <option ng-repeat="city in cityList" value="{{city.id}}" >{{city.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center" ng-if="customer.isAbroad == '1'">
+        <label  class="col-sm-2 control-label">城：</label>
+        <div class="col-sm-4">
+            <select class="fill-item" ng-model="customer.countyId" id="town">
+                <option value="" >--请选择--</option>
+                <option ng-repeat="county in countyList"  value="{{county.id}}" >{{county.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center">
+        <label  class="col-sm-2 control-label">详细地址：</label>
+        <div class="col-sm-10">
+            <textarea class="fill-item" type="text" ng-model="customer.address" style="background: #f5f5f5;height: 60px" placeholder="详细地址"  readonly ></textarea>
+        </div>
+    </div>
+
+    <div class="form-group" style=" width:80%;text-align: center">
+        <label  class="col-sm-2 control-label">经营范围：</label>
+        <div class="col-sm-10">
+            <textarea class="fill-item" type="text" ng-model="customer.businessScope" style="background: #f5f5f5;height: 100px" placeholder="经营范围" readonly ></textarea>
+        </div>
+    </div>
+
+    <div class="submit-line">
+        <button  class="next-step" type="button" ng-click="saveBigCustomer()"><span>下一步</span><i class="fa fa-arrow-circle-o-right"></i></button>
+    </div>
+
+</form>
+
+<!--新增商户-->
+<div  class="modal fade"  id="customerInfo" tabindex="-1" role="dialog" >
+    <div  class="modal-dialog" role="document" style="width: 600px;">
+        <div  class="modal-content">
+            <div>
+                <div class="modal-header">
+                    <span style="font-size: 14px"><b>新增商户</b></span>
+                    <em class="fa fa-close" ng-click="backAdd()"></em>
+                </div>
+                <div  class="modal-body" style="margin-left: 20px;">
+                    <form id="customerAdd" name="customerAdd" role="form" ng-submit="addCustomer()" >
+                        <!--<div class="info-panel last">-->
+                        <!--<h3><i class="fa fa-pencil"></i>商户基本信息</h3>-->
+                        <div>
+                            <ul class="ul-one">
+                                <li class="fill-line">
+                                    <label><label style="color: red">*</label>商户类型：</label>
+                                    <div class="fill-wrapper cus-margin">
+                                        <select class="fill-item" ng-model="customerInfo.customerType"
+                                                ng-options="customerType.typeName for customerType in customerTypes" ng-change="change()" >
+                                        </select>
+                                    </div>
+                                </li>
+
+
+                                <li class="fill-line">
+                                    <label><label style="color: red">*</label>商户名称：</label>
+                                    <div class="fill-wrapper cus-margin" style="position: relative;width: 418px;    ">
+                                        <input ng-change="hideMessage()" class="fill-item" type="text" ng-model="customerInfo.customerName"  id="customerName"  required style="width: 299px;float: left;" placeholder="请输入商户名称">
+                                        <!--                                            <p class="error-point" ng-hide="customerInfo.customerName != '' && customerInfo.customerName != undefined" style="color: red;position: absolute;top:0px;left:302px;heigh: 34px;display: none;margin-left: 4px;">&nbsp;该字段不能为空</p>-->
+                                        <!-- <p class="error-point2"   style="color: red;position: absolute;top:0px;left:302px;heigh: 34px;display: none;margin-left: 4px;"></p>-->
+                                        <p type="submit" class="btn " ng-click="getInfo()" style="line-height:30px; position: absolute;top:0px;left:222px;height: 34px;width: 78px;"
+                                           data-toggle="tooltip"
+                                           title="自动根据正确企业名填充基本信息">
+                                            搜索
+                                        </p>
+                                        <span class="error-point3"  ng-show="flag3" style="color: red;float: left;margin-left: 4px;"></span>
+                                    </div>
+
+                                </li>
+                                <li class="fill-line">
+                                    <label>国内/国外：</label>
+                                    <div class="fill-wrapper cus-margin">
+                                        <select  class="fill-item" ng-model="customerInfo.isAbroad" ng-init="customerInfo.isAbroad='0'" ng-click="selectCountryByIsAbroad()">
+                                            <option value="0" selected>国内</option>
+                                            <option value="1">国外</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <!--国外-->
+                                <li class="fill-line" ng-if="customerInfo.isAbroad == '1'">
+                                    <label><label style="color: red">*</label>洲：</label>
+                                    <div class="fill-wrapper cus-margin">
+                                        <select class="fill-item"
+                                                ng-change="loadCountryList()"
+                                                ng-model="customerInfo.continent"
+                                                ng-options="continent.name for continent in continentList" required>
+                                            <option  value="" >---请选择---</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li class="fill-line" ng-if="customerInfo.isAbroad == '1'">
+                                    <label><label style="color: red">*</label>国家：</label>
+                                    <div class="fill-wrapper cus-margin">
+                                        <select class="fill-item"
+                                                ng-change="loadStateList()"
+                                                ng-model="customerInfo.country"
+                                                ng-options="country.name for country in countryList" required>
+                                            <option  value="" >---请选择---</option>
+                                        </select>
+                                    </div>
+                                </li>
+
+                                <li class="fill-line" ng-if="customerInfo.isAbroad == '1'">
+                                    <label><label style="color: red">*</label>省：</label>
+                                    <div class="fill-wrapper cus-margin">
+                                        <select class="fill-item"
+                                                ng-change="loadCityLists()"
+                                                ng-model="customerInfo.province"
+                                                ng-options="province.name for province in provinceList" required>
+                                            <option  value="" >---请选择---</option>
+                                        </select>
+                                    </div>
+                                </li>
+
+                                <li class="fill-line" ng-if="customerInfo.isAbroad == '1'">
+                                    <label>市：</label>
+                                    <div class="fill-wrapper cus-margin">
+                                        <select class="fill-item"
+                                                ng-change="loadTownList()"
+                                                ng-model="customerInfo.city"
+                                                ng-options="city.name for city in cityList">
+                                            <option  value="" >---请选择---</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li class="fill-line" ng-if="customerInfo.isAbroad == '1'">
+                                    <label>城：</label>
+                                    <div class="fill-wrapper cus-margin">
+                                        <select class="fill-item"
+                                                ng-model="customerInfo.county"
+                                                ng-options="county.name for county in countyList">
+                                            <option  value="" >---请选择---</option>
+                                        </select>
+                                    </div>
+                                </li>
+
+                                <!--国内-->
+                                <li class="fill-line" ng-if="customerInfo.isAbroad == '0'">
+                                    <label style="float: left;line-height: 40px;"><span style="color: red">*</span>所在地区：</label>
+                                    <div style="float: left;margin-left:2px;" class="fill-line" >
+                                        <!--<span style="float: left;">省：</span>-->
+                                        <div class=" cus-margin" style="float: left;width: 122px;">
+                                            <select id = "provinceOption" class="fill-item"
+                                                    ng-change="loadCityList()"
+                                                    ng-model="customerInfo.province"
+                                                    ng-options="province.name for province in provinceList" required>
+                                                <option  value="">-请选择省-</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div style="float: left;margin-left:2px;" class="fill-line">
+                                        <!-- <span style="float: left;width: 40px;padding-right: 4px;">市：</span>-->
+                                        <div class=" cus-margin" style="float: left;width: 172px;">
+                                            <select id = "cityOption" class="fill-item"
+                                                    ng-change="loadCountyList()"
+                                                    ng-model="customerInfo.city"
+                                                    ng-options="city.name for city in cityList" required>
+                                                <option  value="" >---请选择市---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--                                        <div style="float: left;margin-left:2px;" class="fill-line">
+                                                                                <label style="float: left;width: 40px;padding-right: 4px;">县：</label>
+                                                                                <div class=" cus-margin" style="float: left;width: 172px;">
+                                                                                    <select class="fill-item"
+                                                                                            ng-model="customerInfo.county"
+                                                                                            ng-options="county.name for county in countyList" >
+                                                                                        <option  value="" >-&#45;&#45;请选择-&#45;&#45;</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>-->
+                                    <div style="clear: both"></div>
+                                </li>
+
+                                <li class="fill-line" >
+                                    <label><label style="color: red">*</label>详细地址：</label>
+                                    <div class="fill-wrapper cus-margin" style="width: 418px;">
+                                        <textarea style="width:  298px;float:left;" class="fill-item" type="text" ng-model="customerInfo.address" placeholder="请输入详细地址" id="address" maxlength="250" required  ></textarea>
+                                        <span ng-show="customerInfo.address.length==250" style="color: red;float:left;margin-top: 3px;margin-left: 3px;">最多只能输入250个字</span>
+                                    </div>
+
+                                </li>
+
+                                <li class="fill-line" ng-if="customerInfo.customerType.typeCode == 'QY' && customerInfo.isAbroad == '0' ">
+                                    <label><span style="color: red">*</span>注册号/信用代码:</label>
+                                    <div class="fill-wrapper cus-margin" style="position: relative;width: 418px;">
+                                        <input  class="fill-item" type="text" ng-model="customerInfo.taxRegisterNo"  id="taxRegisterNo" style="width: 298px;float: left;" maxlength="30" required placeholder="优先使用统一社会信用代码">
+                                        <div class="dropdown" style=" cursor:pointer; position: absolute;top: 0px;left:222px;width: 62px;">
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style=" color: #fff;height: 34px;background-color: #18A689;">
+                                                查询网站
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                <li><a href="http://www.qichacha.com/" target="_blank"><span >企查查</span></a></li>
+                                                <li><a href="http://www.gsxt.gov.cn/corp-query-homepage.html" target="_blank"><span >国家企业信息公示系统</span></a></li>
+                                                <li><a href="http://www.nacao.org.cn/" target="_blank"><span >全国组织机构代码管理中心</span></a></li>
+                                            </ul>
+                                        </div>
+                                        <span class="rgisterNo" ng-show="isTrueRgisterNo(customerInfo.taxRegisterNo)" style="color: red;float: left;margin-top: 4px;margin-left: 4px;"></span>
+                                    </div>
+                                </li>
+                                <li class="fill-line" ng-if="customerInfo.customerType.typeCode == 'GR' && customerInfo.isAbroad == '0' " >
+                                    <label><label style="color: red">*</label>身份证号：</label>
+                                    <div class="fill-wrapper cus-margin" style="width: 418px;">
+                                        <input class="fill-item" type="text" ng-model="customerInfo.identityCardNo"  id="identityCardNo"  maxlength="18" required style="float:left;width: 298px;">
+                                        <span  class="idCard" ng-show="isTrueIdCard(customerInfo.identityCardNo)" style="color: red;float: left;margin-top: 3px;"></span>
+                                    </div>
+                                </li>
+                                <li class="fill-line" ng-if=" (customerInfo.customerType.typeCode == 'ST'||customerInfo.customerType.typeCode == 'SD'||
+                                         customerInfo.customerType.typeCode == 'XJ' || customerInfo.customerType.typeCode == 'MB') && (customerInfo.isAbroad == '0') " >
+                                    <label><label style="color: red">*</label>组织机构代码：</label>
+                                    <div class="fill-wrapper cus-margin" style="position: relative;width: 418px;" >
+                                        <input  class="fill-item" type="text" ng-model="customerInfo.taxRegisterNo"  id="certificateNo" style="float: left;width: 298px;" maxlength="20" required>
+                                        <div class="dropdown" style=" cursor:pointer; position: absolute;top: 0px;left:222px;width: 62px;">
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style=" color: #fff;height: 34px;background-color: #18A689;">
+                                                查询网站
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                <li><a href="http://www.qichacha.com/" target="_blank"><span >企查查</span></a></li>
+                                                <li><a href="http://www.gsxt.gov.cn/corp-query-homepage.html" target="_blank"><span >国家企业信息公示系统</span></a></li>
+                                                <li><a href="http://www.nacao.org.cn/" target="_blank"><span >全国组织机构代码管理中心</span></a></li>
+                                            </ul>
+                                        </div>
+
+                                        <span class="orgCode" ng-show="isTrueOrgCode(customerInfo.taxRegisterNo)" style="color: red;float: left;margin-top: 3px;margin-left: 3px;"></span>
+                                    </div>
+                                </li>
+
+                                <li class="fill-line">
+                                    <label>经营性质：</label>
+                                    <div class="fill-wrapper cus-margin">
+                                        <select  class="fill-item" ng-model="customerInfo.businessNature"
+                                                 ng-options="attachType.typeId as attachType.typeName  for attachType in businessNatureList" >
+                                            <option value="">---请选择---</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li class="fill-line">
+                                    <label><label style="color: red" ng-if = "customerInfo.customerType.typeCode != 'SD' &&
+                                             customerInfo.customerType.typeCode != 'XJ'">*</label>经营范围：</label>
+                                    <div class="fill-wrapper cus-margin" style="width: 418px;">
+                                        <textarea id="businessScope" style="float: left;height: 36px;width: 298px; padding: 7px 7px;" ng-model="customerInfo.businessScope" placeholder="请输入经营范围" class="fill-item" maxlength="500"></textarea>
+                                        <span ng-show="customerInfo.businessScope.length==500" style="color: red;float: left;margin-top: 4px;margin-left: 3px;">最多只能输入500个字</span>
+                                        <span class="error-point4"  ng-show="flag4" style="color: red;float: left;margin-left: 4px;"></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="fill-line">
+                            <label> <label style="color: red">*</label>商户资质附件：</label>
+                            <div class="fill-wrapper cus-margin">
+                                <select style="height: 36px;width: 298px;padding:7px 7px;" class="form-control" id="attachTypes" multiple
+                                        ng-model="customerInfo.customerAttachmentList"
+                                        ng-options="attachType.typeName for attachType in attachTypes" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div ng-repeat="c in customerInfo.customerAttachmentList" style="width: 1500px;">
+                            <div class="fill-line attachment">
+                                <div ng-show="c.typeName.indexOf('特批文件') < 0">
+                                    <input type="radio" name="{{c.typeId}}" value="0" ng-click="changeTimeType(c.typeId,0);"/>长期有效
+                                    <input type="radio" name="{{c.typeId}}" value="1" ng-click="changeTimeType(c.typeId,1);" checked="checked"/>有期限
+
+                                </div>
+
+                                <label style="padding-top: 6px;">资质起止时间：</label>
+                                <div class="one-line" ng-show="c.typeName.indexOf('特批文件') < 0" style="float: left;">
+
+                                    <div class="fill-wrapper cus-margin" style="margin-left: 0px;width: 84px;padding-top: 6px;">
+                                        <input id="timeStart{{c.typeId}}" style="width: 100%;"
+                                               data-fn-name="setStartDate"
+                                               type="text" class="fill-item time-ipt timeStart" readonly required>
+                                    </div>
+                                </div>
+                                <div class="one-line" style="float: left;width: 84px;margin-left: 10px;padding-top: 6px;" id="endTime{{c.typeId}}" ng-show="c.typeName.indexOf('特批文件') < 0">
+                                    <div class="fill-wrapper cus-margin" style="width: 84px;margin-left: 0px;">
+                                        <input id="timeEnd{{c.typeId}}" style="width:100%;"
+                                               type="text" class="fill-item time-ipt timeEnd" readonly required>
+                                    </div>
+
+                                </div>
+                                <div class="one-line" >
+
+                                </div>
+                                <div class="pic_con" style="margin-left: 10px;float: left;padding-top: 6px;" >
+                                    <div class="btn_change left_btn2 left_b" ng-click="prevpic($event)">上</div>
+                                    <div class="btn_change right_btn2 right_b" ng-click="nextpic($event)">下</div>
+                                    <div class="pic_content">
+                                        <div class="pic_lists" >
+                                            <ul>
+                                                <li class="one-line" ng-repeat="fileUrl in c.attachmentInfo.split(',')"  style="margin-left: 10px;float: left; ">
+                                                    <div class="fill-wrapper" ng-if="fileUrl.indexOf('.pdf') == '-1'" style="margin-left: 0px;width: 44px;">
+                                                        <img ng-src="{{fileUrl}}"  style="width: 44px;cursor: pointer;" ng-click="showAttach(c.attachmentInfo,$index)"/>
+                                                    </div>
+                                                    <div class="fill-wrapper" ng-if="fileUrl.indexOf('.pdf') > '-1'">
+                                                        <span style="margin-left: 10px"><a ng-click="openPdf(fileUrl)" style="margin-left: -10px;color: blue;text-decoration: underline;cursor: pointer;">pdf预览</a></span>
+                                                    </div>
+                                                </li>
+
+                                                <p class="one-line" ng-show=" c.attachmentInfo.split(',').length <=0 ||c.attachmentInfo.split(',') == undefined"  style="margin-left: 10px;float: left; width: 44px;height: 32px;background-image: url('App/modules/imgs/addbackground.png')">
+                                                </p>
+                                                <p class="one-line"  ng-show="c.attachmentInfo.split(',').length <= 1 ||c.attachmentInfo.split(',') == undefined" style="margin-left: 10px;float: left; width: 44px;height: 32px;background-image: url('App/modules/imgs/addbackground.png')">
+                                                </p>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-left: 10px;float: right; margin-right: 980px;padding-top: 6px;">
+                                    <label class="btn-sm btn-file" style="width:60px;line-height: 34px;height: 34px;">
+                                        <input type="file" class="btn-sm" ng-click="loadCurrentAttach(c)"
+                                               ng-model="myFile" multiple
+                                               onchange="angular.element(this).scope().uploadMultiFile(this)" />
+                                        <i class="fa fa-upload"></i>上传
+                                    </label>
+                                </div>
+                                <div style="clear: both"></div>
+                                <div class="showmessage" style="color: red"> </div>
+
+                            </div>
+                        </div>
+                        <!--</div>-->
+                        <div  class="submit-line">
+                            <button  type="submit"><i class="fa fa-floppy-o"></i><span>提交</span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

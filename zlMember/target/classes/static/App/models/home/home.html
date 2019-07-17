@@ -1,0 +1,300 @@
+﻿<style media="screen">
+    .wrap-entery {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: -50px;
+        padding-bottom: 60px!important;
+    }
+
+    .entery {
+        margin-left: 80px;
+        margin-top: 30px;
+        cursor: pointer;
+    }
+
+    .entery-box {
+        width: 95px;
+        height: 95px;
+        background-color: #fafafb;
+        box-shadow: 2px 2px 9px -1px rgba(0, 0, 0, .3);
+        border-radius: 10px;
+        text-align: center;
+        vertical-align: middle;
+        display: table-cell;
+
+    }
+
+    .entery-box-img {
+        width: 40%;
+    }
+
+    .entery-text {
+        margin-top: 18px;
+        font-size: 14px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .num {
+        font-size: 12px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 35px;
+        background: red;
+        color: #fff;
+        padding: 1px 3px;
+        height: 20px;
+        min-width: 20px;
+        line-height: 19px;
+        text-align: center;
+        border-radius: 10px;
+        float: left;
+    }
+
+    .tuCao-wrap{
+        position: fixed;
+        bottom: 20%;
+        right: 10px;
+        background: #1ab394;
+        text-align: center;
+        box-shadow: 1px 1px 2px 1px #4c736b;
+        -webkit-box-shadow: 1px 1px 2px 1px #4c736b;
+        -moz-box-shadow: 1px 1px 2px 1px #4c736b;
+    }
+    .tuCao-wrap:hover{
+        background: #1b926c;
+    }
+    .tuCao-wrap a{
+        color: #fff;
+        font-size: 18px;
+        word-break: break-all;
+        display: block;
+        width: 60px;
+        height: 60px;
+        letter-spacing: 2px;
+        padding-top: 7px;
+        box-sizing: border-box;
+    }
+    .tuCao-wrap a span{
+        display: block;
+        height: 24px;
+    }
+    .tuCao-wrap a:hover{
+        text-decoration: none;
+    }
+    .info-panel{
+        border: 1px solid #ddd;
+    }
+    span{
+        font-size: 14px;
+    }
+    .date{
+        padding-top: 6px;
+        float: right;
+        font-size: 15px;
+        color: #B2B2BA;
+    }
+    a{text-decoration:none;color: black;cursor: pointer}
+    a:hover{text-decoration:underline;color: blue;cursor: pointer}
+
+    .page-wrapper div>li > img:last-child{
+        display: none;
+    }
+    .page-wrapper div>li:hover > img:first-child{
+        display: none;
+    }
+    .page-wrapper div>li:hover > img:last-child{
+        display: inline-block;
+    }
+    .page-wrapper    li:hover > p {
+        color: #fb9b6d;
+    }
+
+    .nav>li>a {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        cursor: pointer;
+        background-color: #FFFFFF;
+    }
+    .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+        color: #555;
+        cursor: default;
+        background-color: #fff;
+        border: 1px solid #fff;
+        border-bottom-color: #1ab394;
+        border-top-color: #fff;
+        font-weight: bold;
+        border-width: 0px 0px 3px 0px;
+    }
+    .font{
+        white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+</style>
+
+<!--操作说明-->
+<div class="modal-mask" ng-show="answerShow">
+    <div class="modal-wrapper">
+        <div class="modal-container" style=" height: 500px; width: 70%; margin-left: 10%;">
+            <div class="modal-header">
+                <div>操作说明</div>
+                <em class="fa fa-close" ng-click="answerShow = false"></em>
+            </div>
+            <br class="modal-body" >
+            <!--征询结果-->
+            <div style="overflow:scroll;width: 100%; height:400px;">
+                <div style="text-align: center">
+                    <label style="text-align: center"><h4>新增供应商/分销商信息操作说明</h4></label>
+                </div>
+                </br>
+                <i>说明：新增供应商与分销商操作相同，以下仅用新增供应商为例用以说明</i></br>
+                <label style="text-align: center"><b>1	如何进入商户系统</b></label></br>
+                <label style="text-align: center"><b>&nbsp;&nbsp;&nbsp;&nbsp;在浏览器中输入网址：http://tccommon1.17usoft.com/merchant/#/home </b></label></br>
+
+
+                <label style="text-align: center"><b>2	新增供应商操作</b></label></br>
+                <label style="text-align: center"><b>2.1	进入供应商管理页面</b></label></br>
+                <img src="./App/modules/imgs/1.png"/></br>
+                <label style="text-align: center"><b>2.2	供应商管理页面</b></label></br>
+                <img src="./App/modules/imgs/2.png"/></br>
+
+                <label style="text-align: center"><b>2.3	新增供应商</b></label></br>
+                <label style="text-align: center"><b>“*”项为必须填写项目，如果没有选择到商户，请点击“没找到商户？”按钮来添加商户，其中灰色项如： 选择商户后自动带出信息，无需填写</b></label></br>
+                <img src="./App/modules/imgs/3.png"/></br>
+
+
+                <label style="text-align: center"><b>2.4	新增供应商的账户信息</b></label></br>
+                <label style="text-align: center"><b>新增供应商页面 点击                  按钮，跳转到“账户信息”页面，点击“新增账户信息”弹出增加账户信息</b></label></br>
+                <img src="./App/modules/imgs/4.png"/></br>
+                <label style="text-align: center"><b>新增账户信息页面“*”的项为必填项，根据选择的实际的“付款方式”来填写供应商账户信息。可以添加多个账户信息</b></label></br>
+                <img src="./App/modules/imgs/5.png"/></br>
+
+                <label style="text-align: center"><b>2.5	没找到商户？</b></label></br>
+                <label style="text-align: center"><b>点击                按钮，在弹出的“商户基本信息”页面录入商户的信息，其中“*” 号项为必填项；供应商企业的注册号/信用代码，可以查看供应商企业的营业执照或去启信宝网站查询：http://www.qixin.com</b></label></br>
+                <img src="./App/modules/imgs/6.png"/></br>
+                <label style="text-align: center"><b>新增商户信息，最后需要上传附件如下图：</b></label></br>
+                <img src="./App/modules/imgs/7.png"/></br>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn" ng-click="answerShow = false">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div >
+    <div class="page-wrapper">
+        <div style="padding: 0 18px;">
+
+            <div style="float: left;width: 70%" >
+                <div class="info-panel">
+                    <h3>快速入口</h3>
+                    <div class="wrap-entery" >
+
+                        <div class="entery" ng-if="!isEL" ng-click="loadUser()">
+                            <li class="entery-box">
+                                <img class="entery-box-img" src="./App/modules/imgs/src/applyContract.svg"  >
+                                <img class="entery-box-img" src="./App/modules/imgs/src/applyContract-o.svg"  >
+                            </li>
+                            <div class="entery-text"  ng-click="loadUser()">用户列表</div>
+                        </div>
+
+                        <div class="entery" ng-if="!isEL" ng-click="loadClothes()">
+                            <li class="entery-box" >
+                                <img class="entery-box-img" src="./App/modules/imgs/src/supplier.svg"  >
+                                <img class="entery-box-img" src="./App/modules/imgs/src/supplier-o.svg"  >
+                            </li>
+                            <div class="entery-text" ng-click="loadClothes()">商品列表</div>
+                        </div>
+
+                        <div class="entery" ng-if="!isEL" ng-click="loadUser()">
+                            <li class="entery-box" >
+                                <img class="entery-box-img" src="./App/modules/imgs/src/distributor.svg"  >
+                                <img class="entery-box-img" src="./App/modules/imgs/src/distributor-o.svg"  >
+                            </li>
+                            <div class="entery-text"  ng-click="loadUser()">用户列表</div>
+                        </div>
+                        <div class="entery" ng-if="!isEL" ng-click="loadUser()">
+                            <li class="entery-box">
+                                <img class="entery-box-img" src="./App/modules/imgs/src/bigCustomer.svg"  >
+                                <img class="entery-box-img" src="./App/modules/imgs/src/bigCustomer-o.svg"  >
+                            </li>
+                            <div class="entery-text" ng-click="loadUser()">用户列表</div>
+                        </div>
+
+                        <div class="entery" ng-click="loadUser()" style="position: relative">
+                            <li class="entery-box">
+                                <img class="entery-box-img" src="./App/modules/imgs/src/personal.svg"  >
+                                <img class="entery-box-img" src="./App/modules/imgs/src/personal-o.svg"  >
+                            </li>
+                            <div class="entery-text"  ng-click="loadUser()">用户列表</div>
+                        </div>
+
+                        <div class="entery" ng-click="loadUser()">
+                            <li class="entery-box">
+                                <img class="entery-box-img" src="./App/modules/imgs/src/contractInfo.svg"  >
+                                <img class="entery-box-img" src="./App/modules/imgs/src/contractInfo-o.svg"  >
+                            </li>
+                            <div class="entery-text" ng-click="loadUser()">用户列表</div>
+                        </div>
+
+                        <div class="entery" ng-click="loadUser()" style="position: relative">
+                            <li class="entery-box">
+                                <img class="entery-box-img" src="./App/modules/imgs/src/approval.svg"  >
+                                <img class="entery-box-img" src="./App/modules/imgs/src/approval-o.svg"  >
+                            </li>
+                            <div class="entery-text"  ng-click="loadUser()">用户列表</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div style="float: left;width: 28%" >
+                <div class="info-panel" style="margin-left: 50px;height: 200px">
+                    <h3>小贴士</h3>
+                    <div style="width: 95%">
+                        <div style="padding-top: 30px">
+                            <span>在使用系统中有任何问题可直接联系
+                                <a href="tencent://message/?Menu=yes&uin=773995314&Service=300&sigT=45a1e5847943b64c6ff3990f8a9e644d2b31356cb0b4ac6b24663a3c8dd0f8aa12a595b1714f9d45">范水周杰伦
+                                     <img src="./App/modules/imgs/chat.png" style="width:20px;" /></a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-panel" style="margin-left: 50px;height: 190px">
+                    <h3>版本/操作说明</h3>
+                    <div>
+                        <div style="padding-top: 20px">
+                            <span style="margin-left: 10px"><a ng-click="openPdf()" style="margin-left: -10px;">查看</a><img src="./App/modules/imgs/src/Hot.gif" style="margin-top: -35px;margin-left: -15px"></span>
+                        </div>
+                        <div style="padding-top: 20px">
+                            <span style="margin-left: 10px"><a ng-click="openPdf1()" style="margin-left: -10px;">预览</a></span>
+                            <span style="margin-left: 10px"><a ng-click="downloadFile()" >下载</a></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-panel" style="margin-left: 50px;height: 160px">
+                    <h3>友情链接</h3>
+                    <div>
+                        <div style="margin-top: 20px">
+                            <a href="http://finance.17usoft.com/financecommon" target="view_window"><span>这是个空白</span></a>
+                            <a style="margin-left: 5%" href="http://finance.17usoft.com/finance" target="view_window" ><span>这是个空白</span></a>
+                            <a style="margin-left: 5%" href="http://finance.tcly.cn/bx/HomeNew"  target="view_window"><span>这是个空白</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+

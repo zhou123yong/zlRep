@@ -1,0 +1,119 @@
+<style>
+    .td {
+        vertical-align: middle;
+        padding-left: 40px;
+        word-break: break-all;
+        word-wrap: break-word;
+        min-width: 120px;
+        text-align: center !important;
+
+    }
+
+    .search-condition {
+        border-bottom: 2px solid #1AB394;
+        border-top: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+
+    .tbody {
+        border-top: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+
+    a {
+        text-decoration: none;
+        color: black
+    }
+
+    a:hover {
+        text-decoration: underline;
+        color: blue
+    }
+
+    li > i {
+        cursor: auto;
+    }
+
+    .modal-style {
+        margin-left: 90px;
+        width: 80%;
+    }
+</style>
+
+<ol class="breadcrumb topnav">
+    <li><i class="glyphicon glyphicon-home"></i> 首页</li>
+    <li><i class="glyphicon glyphicon-hand-right"></i> 系统管理</li>
+    <li><i class="glyphicon glyphicon-hand-right"></i> 商品列表</li>
+</ol>
+<div class="content-wrapper">
+    <div class="search-condition">
+        <div>
+            <div class="filter-wrapper">
+                <ul class="clearfix">
+                    <li class="filter-item">
+                        <label>姓 名：</label>
+                        <div>
+                            <div class="fill-wrapper">
+                                <input class="fill-item-sm" type="text" ng-model="searchUser.name"
+                                       placeholder="姓名">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="filter-item" style="padding: 3px 10px;">
+                        <div>
+                            <button type="button" class="btn" ng-click="getClothesInfo()">搜索</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="applied-budget">
+        <div>
+            <table class="table">
+                <thead class="tbody">
+                <tr>
+                    <th class="td">序号</th>
+                    <th class="td">会员id</th>
+                    <th class="td">会员姓名</th>
+                    <th class="td">价格</th>
+                    <th class="td">创建时间</th>
+                    <th class="td">操作</th>
+                </tr>
+                </thead>
+                <tbody class="tbody">
+                <tr ng-if="clothesList" ng-repeat="p in clothesList">
+                    <td class="td" style="width: 50px;"
+                        ng-bind="$index+1+{{page.pageSize}}*({{page.pageNumber}}-1)"></td>
+                    <td class="td">{{p.userId}}</td>
+                    <td class="td">{{p.userName}}</td>
+                    <td class="td">{{p.price}}</td>
+                    <td class="td">{{p.createTime}}</td>
+                    <td class="td">
+                        <button class="btn btn-danger" ng-click="delete(p.id)">
+                            <i class="glyphicon glyphicon-trash"></i> 删除
+                        </button>
+                    </td>
+                </tr>
+
+                <tr ng-if="!clothesList">
+                    <td colspan="9" style="text-align: center;">暂无数据</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pager">
+            <pager page-total="pageTotal" page-count="pageCount" current-page="currentPage"
+                   on-page-change="onPageChange()" first-text="首页"
+                   next-text="下一页" prev-text="上一页" last-text="尾页">
+            </pager>
+        </div>
+    </div>
+</div>
+
+
+
+

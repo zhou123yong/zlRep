@@ -1,0 +1,929 @@
+<style>
+    .td {
+        vertical-align: middle;
+        padding-left: 40px;
+        word-break: break-all;
+        word-wrap: break-word;
+        min-width: 120px;
+        text-align: center !important;
+    }
+
+    .search-condition {
+        border-bottom: 2px solid #1AB394;
+        border-top: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+
+    .tbody {
+        border-top: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+
+    a {text-decoration: none; color: black }
+
+    a:hover {
+        text-decoration: underline;
+        color: blue
+    }
+
+    li > i {cursor: auto;}
+
+    .modal-style {
+        margin-left: 90px;
+        width: 80%;
+    }
+
+    /*图片上传css*/
+
+    /*body {*/
+    /*margin-top: 50px;*/
+    /*font-size: 16px;*/
+    /*font-family: "Myriad Pro", "Hiragino Sans GB","Microsoft YaHei","å¾®è½¯é›…é»‘", Calibri, Helvetica, tahoma,arial,simsun,"å®‹ä½“", sans-serif;*/
+    /*line-height: 1.5;*/
+    /*-webkit-font-smoothing: antialiased;*/
+    /*}*/
+
+    .jumbotron {
+        background: transparent url(../images/banner.jpg) repeat-x 50% 0%;
+        color: #fff;
+        text-shadow: 1px 1px 1px #3b3262;
+        margin-bottom: 0;
+    }
+
+    .jumbotron .container {
+        position: relative;
+    }
+
+    .jumbotron .github-btns {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    .fetature {
+        margin-top: 30px;
+    }
+
+    .page-body {
+        min-height: 450px;
+    }
+
+    .page-container {
+        margin-top: 10px;
+    }
+
+    .page-container h1,
+    .page-container h2,
+    .page-container h3 {
+        padding-top: 70px;
+        margin-top: -50px;
+    }
+
+    .logo {
+        position: relative;
+        padding-left: 60px;
+    }
+
+    .logo span {
+        position: absolute;
+        left: 15px;
+        top: 8px;
+        font-size: 2em;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    .logo.active {
+        color: #fff;
+    }
+
+    @media (min-width: 768px) {
+        .fetature .row .col-lg-4 {
+            min-height: 250px;
+        }
+    }
+
+    .footer {
+        width: 100%;
+        overflow: hidden;
+        color: #f2f2f2;
+        background: #212121;
+        margin-top: 50px;
+    }
+
+    .footer-fixed-bottom {
+        position: fixed;
+        bottom: 0;
+    }
+
+    .footer a {
+        color: #f2f2f2;
+    }
+
+    .footer .footer-inner {
+        margin: 15px;
+    }
+
+    .wu-example {
+        position: relative;
+        padding: 45px 15px 15px;
+        margin: 15px 0;
+        background-color: #fafafa;
+        box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+        border-color: #e5e5e5 #eee #eee;
+        border-style: solid;
+        border-width: 1px 0;
+    }
+
+    .wu-example:after {
+        content: "ç¤ºä¾‹";
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        color: #bbb;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    @media (min-width: 768px) {
+        .bs-example {
+            margin-left: 0;
+            margin-right: 0;
+            background-color: #fff;
+            border-width: 1px;
+            border-color: #ddd;
+            border-radius: 4px 4px 0 0;
+            box-shadow: none;
+        }
+    }
+
+    .post-toc {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-shadow: 0 1px 0 #fff;
+        background-color: #f7f5fa;
+        border-radius: 5px;
+    }
+
+    .post-toc .nav > li > a {
+        display: block;
+        color: #716b7a;
+        padding: 5px 20px;
+    }
+
+    .post-toc .nav .nav > li > a {
+        padding-top: 3px;
+        padding-bottom: 3px;
+        padding-left: 30px;
+        font-size: 90%;
+    }
+
+    .post-toc.affix {
+        position: static;
+    }
+
+    .post-toc .nav .nav {
+        display: none;
+        margin-bottom: 8px;
+    }
+
+    @media (min-width: 992px) {
+        .post-toc.affix {
+            position: fixed;
+            width: 213px;
+            top: 50px;
+        }
+
+        .post-toc .nav > .active > ul {
+            display: block;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .post-toc.affix {
+            width: 263px;
+        }
+
+        .post-toc .nav > .active > ul {
+            display: block;
+        }
+    }
+
+    .post-toc .nav > .active > a,
+    .post-toc .nav > .active:hover > a,
+    .post-toc .nav > .active:focus > a {
+        font-weight: bold;
+        color: #563d7c;
+        background-color: transparent;
+        border-right: 1px solid #563d7c;
+    }
+
+    .friends-links {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .weixin {
+        text-align: center;
+        display: inline-block;
+    }
+
+    .weixin img {
+        width: 80px;
+    }
+
+    /********************************
+    *
+    *  COMMENTS
+    *
+    ********************************/
+
+    .comment {
+        background-color: transparent;
+        border-color: #CACACA;
+        border-style: solid;
+        border-width: 1px;
+        color: black;
+        display: block;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        padding: 0px;
+        width: 100%;
+    }
+
+    .comment .commentheader {
+        border-bottom-color: #CACACA;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        color: black;
+        background-image: -webkit-linear-gradient(#F8F8F8, #E1E1E1);
+        background-image: -moz-linear-gradient(#F8F8F8, #E1E1E1);
+        color: black;
+        display: block;
+        float: left;
+        font-family: helvetica, arial, freesans, clean, sans-serif;
+        font-size: 12px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        height: 33px;
+        line-height: 33px;
+        margin: 0px;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        padding: 0px;
+        text-overflow: ellipsis;
+        text-shadow: rgba(255, 255, 255, 0.699219) 1px 1px 0px;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    .comment .commentheader .commentgravatar {
+        background-attachment: scroll;
+        background-clip: border-box;
+        background-color: white;
+        background-image: none;
+        background-origin: padding-box;
+        border-color: #C8C8C8;
+        border-style: solid;
+        border-width: 1px;
+        color: black;
+        display: inline-block;
+        float: none;
+        font-family: helvetica, arial, freesans, clean, sans-serif;
+        font-size: 1px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        height: 24px;
+        line-height: 1px;
+        margin-left: 5px;
+        margin-right: 3px;
+        margin-top: -2px;
+        overflow-x: visible;
+        overflow-y: visible;
+        padding: 1px;
+        text-overflow: clip;
+        text-shadow: rgba(255, 255, 255, 0.699219) 1px 1px 0px;
+        vertical-align: middle;
+        white-space: nowrap;
+        width: 24px;
+    }
+
+    .comment .commentheader a:link {
+        text-decoration: none;
+    }
+
+    .comment .commentheader a:hover {
+        border-bottom: 1px solid;
+    }
+
+    .comment .commentheader .commentuser {
+        background-color: transparent;
+        color: black;
+        display: inline;
+        float: none;
+        font-family: helvetica, arial, freesans, clean, sans-serif;
+        font-size: 12px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: bold;
+        height: 0px;
+        line-height: 16px;
+        margin-left: 5px;
+        margin-right: 10px;
+        overflow-x: visible;
+        overflow-y: visible;
+        padding: 0px;
+        text-overflow: clip;
+        text-shadow: rgba(255, 255, 255, 0.699219) 1px 1px 0px;
+        white-space: nowrap;
+        width: 0px;
+    }
+
+    .comment .commentheader .commentdate {
+        background-color: transparent;
+        color: #777;
+        display: inline;
+        float: none;
+        font-family: helvetica, arial, freesans, clean, sans-serif;
+        font-size: 11px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        height: 0px;
+        line-height: 33px;
+        margin: 0px;
+        overflow-x: visible;
+        overflow-y: visible;
+        padding: 0px;
+        text-overflow: clip;
+        text-shadow: rgba(255, 255, 255, 0.699219) 1px 1px 0px;
+        white-space: nowrap;
+        width: 20em;
+    }
+
+    .comment .commentbody {
+        background-attachment: scroll;
+        background-clip: border-box;
+        background-color: transparent;
+        background-image: none;
+        background-origin: padding-box;
+        color: #333;
+        display: block;
+        margin-bottom: 1em;
+        margin-left: 1em;
+        margin-right: 1em;
+        margin-top: 40px;
+        overflow-x: visible;
+        overflow-y: visible;
+        padding: 0em;
+        position: static;
+        width: 96%;
+        word-wrap: break-word;
+    }
+
+    .comment .commentbody p {
+        margin-bottom: 0.5em;
+        margin-top: 0.5em;
+        margin-left: 0em;
+        margin-right: 0em;
+    }
+
+    .comment .commentbody pre {
+        border: 0px solid #ddd;
+        background-color: #eef;
+        padding: 0 .4em;
+    }
+
+    .comment .commentbody pre code {
+        border: 0px solid #ddd;
+    }
+
+    .comment .commentbody code {
+        border: 1px solid #ddd;
+        background-color: #eef;
+        font-size: 85%;
+        padding: 0 .2em;
+    }
+
+    /*demoæ ·å¼*/
+    #picker {
+        display: inline-block;
+        line-height: 1.428571429;
+        vertical-align: middle;
+        margin: 0 12px 0 0;
+    }
+
+    #picker .webuploader-pick {
+        padding: 6px 12px;
+        display: block;
+    }
+
+    #uploader-demo .thumbnail {
+        width: 110px;
+        height: 110px;
+    }
+
+    #uploader-demo .thumbnail img {
+        width: 100%;
+    }
+
+    .uploader-list {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .file-item {
+        float: left;
+        position: relative;
+        margin: 0 20px 20px 0;
+        padding: 4px;
+    }
+
+    .file-item .error {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        right: 4px;
+        background: red;
+        color: white;
+        text-align: center;
+        height: 20px;
+        font-size: 14px;
+        line-height: 23px;
+    }
+
+    .file-item .info {
+        position: absolute;
+        left: 4px;
+        bottom: 4px;
+        right: 4px;
+        height: 20px;
+        line-height: 20px;
+        text-indent: 5px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 12px;
+        z-index: 10;
+    }
+
+    .upload-state-done:after {
+        content: "\f00c";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: 32px;
+        position: absolute;
+        bottom: 0;
+        right: 4px;
+        color: #4cae4c;
+        z-index: 99;
+    }
+
+    .file-item .progress {
+        position: absolute;
+        right: 4px;
+        bottom: 4px;
+        height: 3px;
+        left: 4px;
+        height: 4px;
+        overflow: hidden;
+        z-index: 15;
+        margin: 0;
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+    }
+
+    .file-item .progress span {
+        display: block;
+        overflow: hidden;
+        width: 0;
+        height: 100%;
+        background: #d14 url(../images/progress.png) repeat-x;
+        -webit-transition: width 200ms linear;
+        -moz-transition: width 200ms linear;
+        -o-transition: width 200ms linear;
+        -ms-transition: width 200ms linear;
+        transition: width 200ms linear;
+        -webkit-animation: progressmove 2s linear infinite;
+        -moz-animation: progressmove 2s linear infinite;
+        -o-animation: progressmove 2s linear infinite;
+        -ms-animation: progressmove 2s linear infinite;
+        animation: progressmove 2s linear infinite;
+        -webkit-transform: translateZ(0);
+    }
+
+    @-webkit-keyframes progressmove {
+        0% {
+            background-position: 0 0;
+        }
+        100% {
+            background-position: 17px 0;
+        }
+    }
+
+    @-moz-keyframes progressmove {
+        0% {
+            background-position: 0 0;
+        }
+        100% {
+            background-position: 17px 0;
+        }
+    }
+
+    @keyframes progressmove {
+        0% {
+            background-position: 0 0;
+        }
+        100% {
+            background-position: 17px 0;
+        }
+    }
+
+    a.travis {
+        position: relative;
+        top: -4px;
+        right: 15px;
+    }
+</style>
+
+<ol class="breadcrumb topnav">
+    <li><i class="glyphicon glyphicon-home"></i> 首页</li>
+    <li><i class="glyphicon glyphicon-hand-right"></i> 系统管理</li>
+    <li><i class="glyphicon glyphicon-hand-right"></i> 会员维护</li>
+</ol>
+<div class="content-wrapper">
+    <div class="search-condition">
+        <div>
+            <div class="filter-wrapper">
+                <ul class="clearfix">
+                    <li class="filter-item">
+                        <label>姓 名：</label>
+                        <div>
+                            <div class="fill-wrapper">
+                                <input class="fill-item-sm" type="text" ng-model="searchUser.name"
+                                       placeholder="姓名">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="filter-item">
+                        <label>手 机 号：</label>
+                        <div>
+                            <div class="fill-wrapper">
+                                <input class="fill-item-sm" type="text" ng-model="searchUser.mobile"
+                                       placeholder="手机号">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="filter-item" style="padding: 3px 10px;">
+                        <div>
+                            <button type="button" class="btn" ng-click="getZlUserInfo()">搜索</button>
+                        </div>
+                    </li>
+                    <li class="filter-item" style="padding: 3px 0;">
+                        <div>
+                            <button type="button" class="btn" ng-click="openAddUser()">新增用户</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="applied-budget">
+        <div>
+            <table class="table">
+                <thead class="tbody">
+                <tr>
+                    <th class="td">序号</th>
+                    <th class="td">姓名</th>
+                    <th class="td">性别</th>
+                    <th class="td">手机</th>
+                    <th class="td">积分</th>
+                    <th class="td">生日</th>
+                    <th class="td">创建时间</th>
+                    <!--<th class="td">创建人</th>-->
+                    <!--<th class="td">修改人</th>-->
+                    <th class="td">操作</th>
+                </tr>
+                </thead>
+                <tbody class="tbody">
+                <tr ng-if="projectUserBasicInfo" ng-repeat="p in projectUserBasicInfo">
+                    <td class="td" style="width: 50px;"
+                        ng-bind="$index+1+{{page.pageSize}}*({{page.pageNumber}}-1)"></td>
+                    <td class="td">{{p.userName}}</td>
+                    <td class="td" ng-if="p.sex == 0">女</td>
+                    <td class="td" ng-if="p.sex == 1">男</td>
+                    <td class="td">{{p.mobile}}</td>
+                    <td class="td">{{p.integral}}</td>
+                    <td class="td">{{p.birthDate | date:'yyyy-MM-dd'}}</td>
+                    <td class="td">{{p.createTime}}</td>
+                    <!--<td class="td">{{p.createName}}({{p.createNo}})</td>-->
+                    <!--<td class="td">{{p.updateName}}({{p.updateNo}})</td>-->
+                    <td class="td">
+                        <button class="btn btn-success" ng-click="openAddClothes(p)">
+                            <i class="glyphicon glyphicon-edit"></i> 新买衣服
+                        </button>
+                        <button class="btn btn-success" ng-click="openModifyModal(p)">
+                            <i class="glyphicon glyphicon-edit"></i> 修改
+                        </button>
+                        <button class="btn btn-danger" ng-click="delZlUser(p.id)">
+                            <i class="glyphicon glyphicon-trash"></i> 删除
+                        </button>
+                    </td>
+                </tr>
+
+                <tr ng-if="!projectUserBasicInfo">
+                    <td colspan="9" style="text-align: center;">暂无数据</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pager">
+            <pager page-total="pageTotal" page-count="pageCount" current-page="currentPage"
+                   on-page-change="onPageChange()" first-text="首页"
+                   next-text="下一页" prev-text="上一页" last-text="尾页">
+            </pager>
+        </div>
+    </div>
+</div>
+
+<!--修改用户-->
+<div class="modal fade" id="modifyUser" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-style">
+            <div>
+                <div class="modal-header">
+                    <span style="font-size: 14px"><b>用户修改</b></span>
+                    <em class="fa fa-close" ng-click="closeModifyModal()"></em>
+                </div>
+                <div class="modal-body" style="margin-left: 20px;">
+                    <div>
+                        <ul class="ul-one">
+                            <li class="fill-line">
+                                <label><label style="color: red">*</label>会员姓名：</label>
+                                <div class="fill-wrapper cus-margin" style="width: 200px;">
+                                    <input style="width:200px;float:left;margin-left: 0px" class="fill-item" type="text"
+                                           ng-model="modifyUser.userName" placeholder="请输入会员姓名" id="modifyUserName"
+                                           maxlength="10" required>
+                                    <span ng-show="modifyUser.userName.length==10"
+                                          style="color: red;float:left;margin-top: 3px;margin-left: 3px;">最多只能输入10个字</span>
+                                </div>
+                            </li>
+                            <li class="fill-line">
+                                <label><label style="color: red">*</label>会员手机号：</label>
+                                <div class="fill-wrapper cus-margin" style="width:200px;">
+                                    <input style="width:200px;float:left;margin-left: 0px;" class="fill-item"
+                                           type="text"
+                                           ng-model="modifyUser.mobile" placeholder="请输入会员手机号" id="modifyMobile"
+                                           maxlength="20" required>
+                                    <span ng-show="modifyUser.mobile.length==20"
+                                          style="color: red;float:left;margin-top: 3px;margin-left: 3px;">最多只能输入20个字</span>
+                                </div>
+                            </li>
+                            <li class="fill-line">
+                                <label><label style="color: red">*</label>衣服价格：</label>
+                                <div class="fill-wrapper cus-margin" style="width:200px;">
+                                    <!--<input style="width:200px;float:left;margin-left: 0px" class="fill-item"-->
+                                    <!--type="number"-->
+                                    <!--ng-model="modifyUser.price" placeholder="请输入衣服价格" id="modifyPrice" required>-->
+                                    <input style="width:200px;float:left;margin-left: 0px" class="fill-item"
+                                           type="number"
+                                           ng-model="modifyUser.price" disabled>
+                                </div>
+                            </li>
+
+                            <li class="fill-line">
+                                <label><label style="color: red">*</label>客户性别：</label>
+                                <div class="fill-wrapper cus-margin">
+                                    <input style="width:200px;float:left;margin-left: 0px" class="fill-item"
+                                           ng-model="sex" id="sex" disabled>
+
+                                    <!--<select style="width: 200px" class="fill-item" ng-model="modifyUser.sex" ng-selected="modifyUser.sex">-->
+                                    <!--<option value="2">-&#45;&#45;请选择-&#45;&#45;</option>-->
+                                    <!--<option value="0">-&#45;&#45;女-&#45;&#45;</option>-->
+                                    <!--<option value="1">-&#45;&#45;男-&#45;&#45;</option>-->
+                                    <!--</select>-->
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="submit-line  " style="margin-bottom: 30px;margin-top: 0;">
+                    <button type="submit" ng-click="modifyUserSubmit()"><i class="fa fa-floppy-o"></i><span>提交</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--新增会员用户-->
+<div class="modal fade" id="addUser" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="width: 600px;">
+        <div class="modal-content">
+            <div>
+                <div class="modal-header">
+                    <span style="font-size: 14px"><b>新增用户</b></span>
+                    <em class="fa fa-close" ng-click="backAdd()"></em>
+                </div>
+                <div class="modal-body" style="margin-left: 20px;">
+                    <form id="customerAdd" name="customerAdd" role="form" ng-submit="addUser()">
+                        <div>
+                            <ul class="ul-one">
+                                <li class="fill-line">
+                                    <label><label style="color: red">*</label>会员姓名：</label>
+                                    <div class="fill-wrapper cus-margin" style="width: 200px;">
+                                        <input style="width:200px;float:left;margin-left: 0px" class="fill-item"
+                                               type="text"
+                                               ng-model="user.userName" placeholder="请输入会员姓名" id="userName"
+                                               maxlength="10" required>
+                                        <span ng-show="user.userName.length==10"
+                                              style="color: red;float:left;margin-top: 3px;margin-left: 3px;">最多只能输入10个字</span>
+                                    </div>
+                                </li>
+                                <li class="fill-line">
+                                    <label><label style="color: red">*</label>会员手机号：</label>
+                                    <div class="fill-wrapper cus-margin" style="width:200px;">
+                                        <input style="width:200px;float:left;margin-left: 0px;" class="fill-item"
+                                               type="text"
+                                               ng-model="user.mobile" placeholder="请输入会员手机号" id="mobile"
+                                               maxlength="20" required>
+                                        <span ng-show="user.mobile.length==20"
+                                              style="color: red;float:left;margin-top: 3px;margin-left: 3px;">最多只能输入20个字</span>
+                                    </div>
+                                </li>
+                                <li class="fill-line">
+                                    <label><label style="color: red">*</label>衣服价格：</label>
+                                    <div class="fill-wrapper cus-margin" style="width:200px;">
+                                        <input style="width:200px;float:left;margin-left: 0px" class="fill-item"
+                                               type="number"
+                                               ng-model="user.price" placeholder="请输入衣服价格" id="price" required>
+                                    </div>
+                                </li>
+
+                                <li class="fill-line">
+                                    <label><label style="color: red">*</label>客户性别：</label>
+                                    <div class="fill-wrapper cus-margin">
+                                        <select class="fill-item" ng-model="user.sex" style="width: 200px"
+                                                ng-init="user.sex='2'">
+                                            <option value="2">---请选择---</option>
+                                            <option value="0">---女---</option>
+                                            <option value="1">---男---</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li class="fill-line">
+                                    <label><label style="color: red">*</label>会员生日：</label>
+                                    <div class="fill-wrapper cus-margin">
+                                        <input style="width:200px;float:left;margin-left: 0px" id="birthDate"
+                                               ng-model="user.birthDate" type="text"
+                                               class="fill-item-sm time-ipt" data-fn-name="setStartDate"
+                                               data-start-date="1900-01-01" data-end-date="2099-12-31" readonly>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="submit-line">
+                            <button type="submit"><i class="fa fa-floppy-o"></i><span>提交</span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--会员新买衣服-->
+<div class="modal fade" id="addClothes" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="width: 600px;">
+        <div class="modal-content">
+            <div>
+                <div class="modal-header">
+                    <span style="font-size: 14px"><b>新买衣服</b></span>
+                    <em class="fa fa-close" ng-click="backAddClothes()"></em>
+                </div>
+                <div class="modal-body" style="margin-left: 20px;">
+                    <div>
+                        <ul class="ul-one">
+                            <li class="fill-line">
+                                <label><label style="color: red">*</label>会员姓名：</label>
+                                <div class="fill-wrapper cus-margin" style="width: 200px;">
+                                    <input style="width:200px;float:left;margin-left: 0px" class="fill-item"
+                                           type="text" ng-model="oldUser.userName" disabled>
+                                </div>
+                            </li>
+                            <li class="fill-line">
+                                <label><label style="color: red">*</label>会员手机号：</label>
+                                <div class="fill-wrapper cus-margin" style="width:200px;">
+                                    <input style="width:200px;float:left;margin-left: 0px;" class="fill-item"
+                                           type="text" ng-model="oldUser.mobile" disabled>
+                                </div>
+                            </li>
+                            <li class="fill-line">
+                                <label><label style="color: red">*</label>衣服价格：</label>
+                                <div class="fill-wrapper cus-margin" style="width:200px;">
+                                    <input style="width:200px;float:left;margin-left: 0px" class="fill-item"
+                                           type="number"
+                                           ng-model="newUser.price" placeholder="请输入衣服价格" id="newPrice" required>
+                                </div>
+                            </li>
+
+                            <li class="fill-line">
+                                <label><label style="color: red">*</label>客户性别：</label>
+                                <div class="fill-wrapper cus-margin">
+                                    <input style="width:200px;float:left;margin-left: 0px" class="fill-item"
+                                           ng-model="oldSex" disabled>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" ng-click="buyClothes()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="uploader-demo">
+    <!--用来存放item-->
+    <div id="fileList" class="uploader-list"></div>
+    <div id="filePicker">选择图片</div>
+</div>
+
+<!--<div style="margin-left: 10px;float: right; margin-right: 980px;padding-top: 6px;">-->
+    <!--<label class="btn-sm btn-file" style="width:60px;line-height: 34px;height: 34px;">-->
+        <!--<input type="file" class="btn-sm" ng-click="loadCurrentAttach(c)"-->
+               <!--ng-model="myFile" multiple-->
+               <!--onchange="angular.element(this).scope().uploadMultiFile(this)" />-->
+        <!--<i class="fa fa-upload"></i>上传-->
+    <!--</label>-->
+<!--</div>-->
+
+<!--<div>-->
+    <!--<table>-->
+        <!--<tr>-->
+            <!--<td style="border-color: white">-->
+                <!--<label class="btn-sm btn-file" style="width: 100px;margin-left: 6%">-->
+                    <!--<input type="file" nv-file-select="" uploader="uploader" ngf-max-size="1MB" multiple/>-->
+                    <!--<label style="color: red">*</label>添加附件-->
+                <!--</label>-->
+                <!--<span style="color: red">仅支持doc,pdf,xls,jpg,ppt,txt,rtf,tif 格式</span>-->
+            <!--</td>-->
+            <!--<td colspan="4" style="border-color: white"></td>-->
+        <!--</tr>-->
+
+        <!--<tr>-->
+            <!--<td colspan="6" style="border-color: white;height: 10%">-->
+                <!--<div ng-repeat="item in uploader.queue" style="width: 300px;display: inline-block;">-->
+                    <!--<div  ng-show="uploader.isHTML5" nowrap style="width:280px;" >-->
+                        <!--<table border="1" style="border: 1px solid #F2F2F2;background-color: #DDFFF8" >-->
+                            <!--<tr>-->
+                                <!--<td rowspan="2">-->
+                                    <!--<img ng-src="./App/modules/imgs/item/{{item.itemType}}.png" style="height: 40px">-->
+                                <!--</td>-->
+                                <!--<td colspan="2" style="height: 47px"><span style="color:#8F8F8F;" >{{item.file.name }}</span></td>-->
+                                <!--<td rowspan="2" nowrap>-->
+                                    <!--<a  target="_blank"  ng-click="leaf(item)" style="cursor: pointer">-->
+                                        <!--<span style="color: #68A4FE">预览</span>-->
+                                    <!--</a>-->
+                                    <!--&nbsp;&nbsp;-->
+                                    <!--<a href="#"  ng-click="item.remove()">-->
+                                        <!--<span style="color: red">删除</span>-->
+                                    <!--</a>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td><span style="color: #C1C1C1">{{item.file.size/1024/1024|number:2 }} MB</span></td>-->
+                                <!--<td>-->
+                                    <!--<span ng-show="!item.isSuccess" style="color: red">等待上传</span>-->
+                                    <!--<span ng-show="item.isSuccess" style="color: green"><i class="glyphicon glyphicon-ok"></i>上传成功</span>-->
+                                    <!--<span ng-show="item.isCancel" style="color: green"><i class="glyphicon glyphicon-ban-circle">撤销上传</i></span>-->
+                                    <!--<span ng-show="item.isError" style="color: green"><i class="glyphicon glyphicon-remove">上传失败</i></span>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                        <!--</table>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</td>-->
+        <!--</tr>-->
+    <!--</table>-->
+<!--</div>-->
+
+

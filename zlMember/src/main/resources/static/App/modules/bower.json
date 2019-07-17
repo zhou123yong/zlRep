@@ -1,0 +1,28 @@
+{
+  "name": "modules",
+  "authors": [
+    "吴祥平 <wxp4532@ly.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.5",
+    "messenger": "^1.5.0",
+    "bootstrap": "^3.3.6",
+    "angular-ui-router": "^0.3.0",
+    "angular-local-storage": "^0.2.7",
+    "oclazyload": "^1.0.9",
+    "angular-ueditor": "*",
+    "underscore": "^1.8.3"
+  }
+}

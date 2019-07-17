@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ly.mapper.HousesDirectMapper">
+
+    <resultMap id="infoMap" type="com.ly.entity.TfhHousesDirectSellingEntity">
+        <result property="id" column="id"/>
+        <result property="newHouseId" column="newHouseId"/>
+        <result property="projectId" column="projectId"/>
+        <result property="channel" column="channel"/>
+        <result property="housesName" column="housesName"/>
+        <result property="pinyin" column="pinyin"/>
+        <result property="showState" column="showState"/>
+        <result property="sortNum" column="sortNum"/>
+        <result property="indexshow" column="indexShow"/>
+        <result property="cityId" column="cityId"/>
+        <result property="districtId" column="districtId"/>
+        <result property="districtName" column="districtName"/>
+        <result property="tags" column="tags"/>
+        <result property="priceArea" column="priceArea"/>
+        <result property="avgPrice" column="avgPrice"/>
+        <result property="acreageArea" column="acreageArea"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="mainUnit" column="mainUnit"/>
+        <result property="userId" column="userId"/>
+        <result property="linkAddr" column="linkAddr"/>
+        <result property="blockId" column="blockId"/>
+        <result property="hxnav" column="hxnav"/>
+        <result property="selfPrice" column="selfPrice"/>
+        <result property="cornet" column="cornet"/>
+        <result property="telnum" column="telnum"/>
+        <result property="areaCode" column="areaCode"/>
+        <result property="description" column="description"/>
+        <result property="signBaseNum" column="signBaseNum"/>
+        <result property="addSign" column="addSign"/>
+        <result property="deStartTime" column="deStartTime"/>
+        <result property="deEndTime" column="deEndTime"/>
+    </resultMap>
+
+    <select id="queryByConditions" resultMap="infoMap" parameterType="map">
+        SELECT *
+        FROM tfh_housesDirectSelling
+        where 1 = 1
+        <if test="city != null and city !='' ">
+            AND cityId = #{city}
+        </if>
+        <if test="channel != null and channel !='' ">
+            AND channel = #{channel}
+        </if>
+        <if test="newHouseId != null and newHouseId != ''">
+            AND newHouseId = #{newHouseId}
+        </if>
+    </select>
+
+
+</mapper>

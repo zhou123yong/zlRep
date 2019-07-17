@@ -1,0 +1,257 @@
+<div>
+    <div class="info-panel last" style="border-color: white">
+        <div style="padding-bottom: 0px;padding-left:0px;padding-top: 0px;">
+            <button ng-click="addAttachment()" type="button" class="btn"><i class=""></i>新增资质</button>
+        </div>
+        <!--<h3>大客户资质</h3>-->
+        <div style="padding-left:0px;padding-right: 0px;padding-bottom: 0px;">
+            <table class="table-hover table-align">
+                <tr>
+                    <td colspan="4" style="border: none;padding: 0px;">
+                        <div>
+                            <table  class=" table table-striped table-hover table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style="text-align:center;vertical-align:middle;">资质名称</th>
+                                    <th style="text-align:center;vertical-align:middle;">预览图</th>
+                                    <th style="text-align:center;vertical-align:middle;">资质起始时间</th>
+                                    <th style="text-align:center;vertical-align:middle;">资质结束时间</th>
+                                    <th style="text-align:center;vertical-align:middle;">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="attch-show" ng-repeat="attach in customer.customerAttachmentList ">
+                                    <td style="text-align:center;vertical-align:middle;" width="10%">{{attach.attachmentTypeName}}</td>
+                                    <td>
+                                        <div class="pic_parent_div" style="width: 260px; height: 60px;margin: 0 auto;">
+                                            <div class="btn_div_point  fl">
+                                                <img class=" btn_div_point_left" src="App/modules/imgs/left_gray.png"  ng-click="prevpic($event,2)">
+                                            </div>
+                                            <div class="pic_fixed_width">
+                                                <div ng-class="attach.attachmentInfo.split(',') == undefined || attach.attachmentInfo.split(',') == ''? 'pic_float_lists2':'pic_float_lists'">
+                                                    <div class="one-line2 fl" ng-repeat="fileUrl in attach.attachmentInfo.split(',')">
+                                                        <div  ng-if="fileUrl.indexOf('.pdf') == '-1'">
+                                                            <img ng-src="{{fileUrl}}"  class= "fill-wrapper2" style="cursor: pointer;" ng-click="showAttachInfo(attach.attachmentInfo,$index)"/>
+                                                        </div>
+                                                        <div ng-if="fileUrl.indexOf('.pdf') > '-1'">
+                                                            <span style="margin-left: 10px;margin-top: 20%;display: block;"><a ng-click="openPdf(fileUrl)" style="margin-left: -10px;color: blue;text-decoration: underline;cursor: pointer;">pdf预览</a></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="default_img fl" ng-show="attach.attachmentInfo.split(',') == undefined || attach.attachmentInfo.split(',').length <= 0 ">
+                                                        <img src="App/modules/imgs/no_img.png">
+                                                    </div>
+                                                    <div class="default_img  fl" ng-show="attach.attachmentInfo.split(',') == undefined || attach.attachmentInfo.split(',').length <= 1">
+                                                        <img src="App/modules/imgs/no_img.png">
+                                                    </div>
+                                                    <div style="clear: both;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="btn_div_point  fr"  ng-click="nextpic($event,2)">
+                                                <img class=" btn_div_point_right" ng-if="attach.attachmentInfo.split(',').length>2" src="App/modules/imgs/right_black.png"  ng-click="nextpic($event,2)">
+                                                <img class=" btn_div_point_right" ng-if="attach.attachmentInfo.split(',') == undefined || attach.attachmentInfo.split(',').length<=2" src="App/modules/imgs/right_gray.png"  ng-click="nextpic($event,2)">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="text-align:center;vertical-align:middle;">
+                                        <span>{{attach.intelligenceStartTime == '1900-01-01' ? '无' : attach.intelligenceStartTime}}</span>
+                                    </td>
+                                    <td style="text-align:center;vertical-align:middle;">
+                                        <span>{{attach.intelligenceEndTime == '2120-01-01' ? '长期有效' : (attach.intelligenceEndTime == '1900-01-01' ? '无' : attach.intelligenceEndTime)}}</span>
+                                    </td>
+                                    <td style="text-align:center;vertical-align:middle;">
+                                        <button type="button" ng-click="editAttach($index)" class="btn btn-success" style="width: 100px;">
+                                            <i class="glyphicon glyphicon-edit"></i>编辑</button>
+                                        <button type="button" ng-click="delAttach($index)" class="btn btn-danger" style="width: 100px;">
+                                            <i class="glyphicon glyphicon-trash"></i>删除</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <!--新增供应资质-->
+    <div class="attch-add">
+        <div  class="info-panel last" style="margin-top: 20px;" ng-show="showAttach">
+            <h3><i class="fa fa-pencil"></i>供应商资质信息(选择相同资质类型即为修改)</h3>
+            <div class="fill-line">
+                <label>供应商资质附件：</label>
+                <div class="fill-wrapper" style="margin-left: 0px;">
+                    <select style="width: 500px" class="form-control" id="attachType" multiple
+                            ng-model="customerInfo.customerAttachmentList"
+                            ng-options="attachType.typeName for attachType in attachTypes" required>
+                    </select>
+                </div>
+                <!--<i class="fa fa-volume-up" style="margin-left: 300px"></i>&nbsp;&nbsp;温馨提醒：&nbsp;&nbsp;<span style="color: red">新资质与原有资质名一致，会替换原有资质</span>-->
+                <!--<span style="color: red">*</span>-->
+            </div>
+            <div class="attch-add-upload" ng-repeat="c in customerInfo.customerAttachmentList" style="width: 80%;min-width: 910px;">
+                <div ng-show="c.typeName.indexOf('特批文件') < 0" style="margin-left: 120px;padding-bottom: 6px;">
+                    <input type="radio" name="{{c.typeId}}" value="0" ng-click="changeTimeType(c.typeId,0);">长期有效
+                    <input type="radio" name="{{c.typeId}}" value="1" ng-click="changeTimeType(c.typeId,1);" checked="checked"/>有期限
+                </div>
+                <div style="width: 100%;height: 100%;">
+                    <div class="fl" style="line-height: 60px;">
+                        <label class="a-label">资质起止时间：</label>
+                    </div>
+                    <div class="fl" style=" margin-right: 22px;margin-top: 16px;" ng-show="c.typeName.indexOf('特批文件') < 0">
+                        <div class="">
+                            <input id="timeStart{{c.typeId}}" type="text" data-fn-name="setStartDate" class="fill-item time-ipt timeStart" required readonly>
+                        </div>
+                    </div>
+                    <div class="fl" style=" margin-right: 22px;margin-top: 16px;" ng-show="c.typeName.indexOf('特批文件') < 0">
+                        <div class="" id="endTime{{c.typeId}}">
+                            <input id="timeEnd{{c.typeId}}" type="text" data-fn-name="setEndDate" class="fill-item time-ipt timeEnd" required readonly>
+                        </div>
+                    </div>
+
+                    <div class="pic_parent_div fl" style="width: 260px; height: 60px;margin: 0 auto;margin-right: 22px;">
+                        <div class="btn_div_point  fl">
+                            <img class=" btn_div_point_left" src="App/modules/imgs/left_gray.png"  ng-click="prevpic($event,2)">
+                        </div>
+                        <div class="pic_fixed_width">
+                            <div class="pic_float_lists">
+                                <div class="one-line2 fl" ng-repeat="fileUrl in c.attachmentInfo.split(',')">
+                                    <div  ng-if="fileUrl.indexOf('.pdf') == '-1'">
+                                        <img ng-src="{{fileUrl}}"  class= "fill-wrapper2" style="cursor: pointer;" ng-click="showAttachInfo(c.attachmentInfo,$index)"/>
+                                    </div>
+                                    <div ng-if="fileUrl.indexOf('.pdf') > '-1'">
+                                        <span style="margin-left: 10px;margin-top: 20%;display: block;"><a ng-click="openPdf(fileUrl)" style="margin-left: -10px;color: blue;text-decoration: underline;cursor: pointer;">pdf预览</a></span>
+                                    </div>
+                                </div>
+                                <div class="default_img fl" ng-show="c.attachmentInfo.split(',') == undefined || c.attachmentInfo.split(',').length <= 0 ">
+                                    <img src="App/modules/imgs/no_img.png">
+                                </div>
+                                <div class="default_img  fl" ng-show="c.attachmentInfo.split(',') == undefined || c.attachmentInfo.split(',').length <= 1">
+                                    <img src="App/modules/imgs/no_img.png">
+                                </div>
+                                <div style="clear: both;"></div>
+                            </div>
+                        </div>
+                        <div class="btn_div_point  fr"  ng-click="nextpic($event,2)">
+                            <img class=" btn_div_point_right" ng-if="c.attachmentInfo.split(',').length>2" src="App/modules/imgs/right_black.png"  ng-click="nextpic($event,2)">
+                            <img class=" btn_div_point_right" ng-if="c.attachmentInfo.split(',') == undefined || c.attachmentInfo.split(',').length<=2" src="App/modules/imgs/right_gray.png"  ng-click="nextpic($event,2)">
+                        </div>
+                    </div>
+                    <div class="fl" style=" margin-top: 16px;">
+                        <label class="btn-sm btn-file" style="width: 106px;" title="{{c.typeName}}">
+                            <input type="file" class="btn-sm" ng-click="loadCurrentAttach(c)"
+                                   ng-model="myFile" multiple
+                                   onchange="angular.element(this).scope().uploadMultiFile(this)" />
+                            <i class="fa fa-upload"></i>上传{{c.typeName}}
+                        </label>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <!--                    <div ng-repeat="fileName in c.attachName">
+                                            {{fileName}}
+                                        </div>-->
+
+                </div>
+            </div>
+            <div class="submit-line" >
+                <button  class="next-step" type="button" ng-click="cancelSubmit()"><span>取消</span><i class="fa fa-floppy-o"></i></button>
+
+                <button  class="next-step" type="button" ng-click="submitAttach()"><span>保存</span><i class="fa fa-floppy-o"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!--编辑大客户资质-->
+    <div  class="modal fade attch-reload"  id="attachInfo" tabindex="-1" role="dialog">
+        <div  class="modal-dialog" role="document" >
+            <div  class="modal-content">
+                <div  class="modal-body">
+                    <form id="customerAdd" name="customerAdd" role="form" ng-submit="edit()" >
+                        <div class="info-panel last">
+                            <h3><i class="fa fa-pencil"></i>编辑供应商资质</h3>
+                            <div class="fill-line" style="padding-bottom: 0px;">
+                                <label> <span style="color: red">*</span>资质名称：</label>
+                                <div class="fill-wrapper" style="width: 100px;margin-left: 0px;">
+                                    <span>{{signRelationAttach.attachmentTypeName}}</span>
+                                </div>
+                            </div>
+
+                            <div class="fill-line attch-edit-upload">
+                                <label>
+                                    <label class="btn-sm btn-file" style="width:80px;margin-top: 20px;">
+                                        <input type="file" class="btn-sm" ng-click="loadEditAttach()"
+                                               ng-model="myFile" multiple
+                                               onchange="angular.element(this).scope().EditUploadMultiFile(this)" />
+                                        <i class="fa fa-upload"></i>上传
+                                    </label>
+                                </label>
+
+                                <div class="pic_parent_div" style="width: 260px; height: 60px;margin: 0 auto;">
+                                    <div class="btn_div_point  fl">
+                                        <img class="btn_div_point_left" src="App/modules/imgs/left_gray.png"  ng-click="prevpic($event,2)">
+                                    </div>
+                                    <div class="pic_fixed_width">
+                                        <div class="pic_float_lists">
+                                            <div class="one-line2 fl" ng-repeat="fileUrl in signRelationAttach.attachmentInfo.split(',')">
+                                                <div  ng-if="fileUrl.indexOf('.pdf') == '-1'">
+                                                    <img ng-src="{{fileUrl}}"  style="cursor: pointer;" ng-click="showAttachInfo(signRelationAttach.attachmentInfo,$index)"/>
+                                                </div>
+                                                <div ng-if="fileUrl.indexOf('.pdf') > '-1'">
+                                                    <span style="margin-left: 10px;margin-top: 20%;display: block;"><a ng-click="openPdf(fileUrl)" style="margin-left: -10px;color: blue;text-decoration: underline;cursor: pointer;">pdf预览</a></span>
+                                                </div>
+                                            </div>
+                                            <div class="default_img fl" ng-show="signRelationAttach.attachmentInfo.split(',') == undefined || signRelationAttach.attachmentInfo.split(',').length <= 0 ">
+                                                <img src="App/modules/imgs/no_img.png">
+                                            </div>
+                                            <div class="default_img  fl" ng-show="signRelationAttach.attachmentInfo.split(',') == undefined || signRelationAttach.attachmentInfo.split(',').length <= 1">
+                                                <img src="App/modules/imgs/no_img.png">
+                                            </div>
+                                            <div style="clear: both;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="btn_div_point  fr"  ng-click="nextpic($event,2)">
+                                        <img class="btn_div_point_right" ng-if="signRelationAttach.attachmentInfo.split(',').length>2" src="App/modules/imgs/right_black.png"  ng-click="nextpic($event,2)">
+                                        <img class="btn_div_point_right" ng-if="signRelationAttach.attachmentInfo.split(',') == undefined || signRelationAttach.attachmentInfo.split(',').length<=2" src="App/modules/imgs/right_gray.png"  ng-click="nextpic($event,2)">
+                                    </div>
+                                </div>
+
+                                <div class="one-line" ng-show="signRelationAttach.attachmentTypeName.indexOf('特批文件') < 0" style="margin-top: 10px;">
+                                    <label>资质起始时间：</label>
+                                    <div>
+                                        <div class="fill-wrapper">
+                                            <input id="timeStart{{signRelationAttach.attachmentTypeId}}"
+                                                   ng-model="signRelationAttach.intelligenceStartTime" type="text" data-fn-name="setStartDate" class="fill-item time-ipt timeStart" readonly required>
+                                        </div>
+                                        <div class="fill-wrapper">
+                                            <span style="color: red">（时间格式：年-月-日）</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="one-line" ng-show="signRelationAttach.attachmentTypeName.indexOf('特批文件') < 0">
+                                    <label>资质到期时间：</label>
+                                    <div>
+                                        <div class="fill-wrapper">
+                                            <input id="timeEnd{{signRelationAttach.attachmentTypeId}}"
+                                                   ng-model="signRelationAttach.intelligenceEndTime" data-fn-name="setEndDate" type="text" class="fill-item time-ipt timeEnd" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="fill-wrapper">
+                                        <span style="color: red">（时间格式：年-月-日）</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  class="submit-line">
+                            <button  type="submit"><i class="fa fa-floppy-o"></i><span>保存</span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="submit-line">
+    <button ng-click="lastStep()"  type="button" ng-show="attachNext"><i class="fa fa-arrow-circle-left"></i><span>上一步</span></button>
+    <button  class="next-step" type="button" ng-click="nextStep()" ng-show="attachNext"><span>下一步</span><i class="fa fa-arrow-circle-o-right"></i></button>
+</div>

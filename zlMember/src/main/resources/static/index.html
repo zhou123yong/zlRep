@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" ng-app="webApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <link rel="icon" href="./favicon.ico"/>
+    <title ng-bind="$state.current.data.pageTitle"></title>
+    <link href="./App/modules/bower_components/select2/dist/css/select2.min.css" rel="stylesheet"/>
+    <link href="./App/modules/bower_components/calendar/Calendar.css" rel="stylesheet"/>
+    <!-- Bootstrap core CSS -->
+    <link href="./App/modules/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+    <link href="./App/modules/bower_components/messenger/css/messenger.css" rel="stylesheet"/>
+    <link href="./App/modules/bower_components/hovertree/css/jquery.hovertree.css" rel="stylesheet"/>
+    <link href="./App/modules/bower_components/Font-Awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link href="./App/modules/css/home.css" rel="stylesheet"/>
+    <link href="./App/modules/css/bootstrap-select.css" rel="stylesheet"/>
+    <link href="./App/modules/bower_components/activiti/jquery.qtip.min.css" rel="stylesheet"/>
+    <link href="./App/modules/bower_components/angular/ng-pagination.min.css" rel="stylesheet"/>
+
+    <link href="./App/modules/bower_components/webuploader/webuploader.css" rel="stylesheet"/>
+    <link href="./App/models/home/scrollbar.css" rel="stylesheet"/>
+    <link href="./App/models/home/page-header-nav.css" rel="stylesheet"/>
+    <link href="./App/models/home/common.css" rel="stylesheet"/>
+    <link href="./App/models/signRelations/signRelationAdd.css"/>
+    <link href="./App/modules/components/imageViewer/imageViewer.css" rel="stylesheet"/>
+    <link href="./App/modules/bower_components/messenger/css/messenger.css" rel="stylesheet"/>
+    <link href="./App/modules/bower_components/messenger/css/messenger-theme-future.css" rel="stylesheet"/>
+    <!--弹框样式-->
+    <link href="//js.40017.cn/cn/min/??/cn/public/jquery/dialog2/0.0.1/dialog2.css?v=1" rel="stylesheet"/>
+    <style>
+        .num2 {
+            font-size: 12px;
+            position: absolute;
+            margin-top: -25px;
+            left: 140px;
+            width: 35px;
+            background: red;
+            color: #fff;
+            padding: 1px 3px;
+            height: 20px;
+            min-width: 20px;
+            line-height: 19px;
+            text-align: center;
+            border-radius: 10px;
+            /*float: left;*/
+        }
+
+        .complain {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            margin-right: 2px;
+            line-height: inherit;
+            text-align: center;
+            vertical-align: -2px;
+        }
+
+        .switch1 {
+            position: absolute;
+            top: 9px;
+            right: 8px;
+            float: right;
+            width: 28px;
+            text-align: center;
+            border-radius: 2px;
+            line-height: inherit;
+            cursor: pointer;
+        }
+
+        .switch1:hover {
+            background-color: #f0f0f0;
+        }
+
+        .topnav {
+            position: fixed;
+            width: 100%;
+            top: 44px;
+            z-index: 90;
+        }
+    </style>
+</head>
+
+<body ng-controller="homecontroller">
+<header class="page-header">
+    <div class="logo"><img src="./App/models/home/imgs/logo-white-icon.png"></div>
+    <h1>ZL会员管理系统</h1>
+    <ul class="page-header-nav">
+        <li>
+            <a href="javascript:;"><i class="fa fa-user"></i>您好，欢迎光临</span>
+                <span ng-bind="user.username"></span><em class="fa fa-angle-down"></em>
+            </a>
+
+        </li>
+    </ul>
+</header>
+<div class="page-content">
+    <div class="page-nav">
+        <div class="page-nav-wrapper">
+            <ul class="menubar-first-level">
+                <li data-url="#/home" id="liHome">
+                    <a href="#/home"><span><i class="fa fa-home"></i> 首页</span></a>
+                    <i class="switch1 fa fa-bars"></i>
+                </li>
+
+                <li on-finish-render-filters>
+                    <!--<a href="javascript:;"><i class="fa {{c.remark}}"></i><span ng-bind="c.title"></span><em class="fa"></em></a>-->
+                    <a href="javascript:;">
+                        <i class="fa"></i>
+                        <span ng-bind="zlUser"></span>
+                        <em class="fa"></em>
+                    </a>
+                    <ul class="menubar-second-level">
+                        <li><a href="zlUser/list">用户列表</a>
+                        <!--<li ng-repeat="d in c.menus" id="{{d.title}}"><a href="{{d.url}}">{{d.title}}</a>-->
+                        <!---->
+                        <!--</li>-->
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-container" style="top:95px;">
+        <div class="page-wrapper">
+            <div ui-view></div>
+        </div>
+        <div class="page-footer">Copyright © 2002-2020 zl&你的专属衣柜有限公司 版权所有</div>
+    </div>
+</div>
+
+<script src="./App/modules/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="./App/modules/bower_components/jquery/dist/jquery.media.js"></script>
+<script src="./App/modules/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./App/modules/bower_components/angular/angular.js"></script>
+<script src="./App/modules/bower_components/angular-ui-router/angular-ui-router.js"></script>
+<script src="./App/modules/bower_components/oclazyload/dist/ocLazyLoad.js"></script>
+<script src="./App/modules/bower_components/messenger/js/messenger.js"></script>
+<script src="./App/modules/bower_components/hovertree/js/jquery.hovertree.js"></script>
+<script src="./App/modules/bower_components/select2/dist/js/select2.full.js"></script>
+<script src="./App/modules/bower_components/select2/dist/js/i18n/zh-CN.js"></script>
+<script src="./App/modules/bower_components/calendar/scrollbar.js"></script>
+<script src="./App/modules/bower_components/calendar/Calendar.js"></script>
+<script src="./App/modules/proper/popper.js"></script>
+<script src="./App/modules/bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+<script src="./App/modules/json/json2.js"></script>
+<script type="application/javascript">
+    var time = new Date().getTime();
+    document.write('<script src="./App/config.js?t=' + time + '"><' + '/script>');
+    document.write('<script src="./App/app.js?t=' + time + '"><' + '/script>');
+    document.write('<script src="./App/homeController.js?t=' + time + '"><' + '/script>');</script>
+<script src="./App/common.js"></script>
+<script src="./App/modules/directive/repeatDone.js"></script>
+<script src="./App/modules/httpProvider/httpProvider.js"></script>
+<script src="./App/modules/directive/compileHtml.js"></script>
+<script src="./App/modules/directive/select2.js"></script>
+<script src="./App/modules/directive/querySelect2.js"></script>
+<script src="./App/modules/bower_components/activiti/jquery.qtip.pack.js"></script>
+<script src="./App/modules/bower_components/activiti/jquery.outerhtml.js"></script>
+<script src="./App/modules/bower_components/activiti/workflow.js"></script>
+<script src="./App/modules/bower_components/activiti/workflowLazy.js"></script>
+<script src="./App/modules/bower_components/angular/ng-pagination.min.js"></script>
+<script src="./App/modules/bower_components/angular-file-upload/angular-file-upload.js"></script>
+<script src="./App/modules/bower_components/bootstrap/js/bootstrap-select.js"></script>
+<script src="./App/modules/bower_components/webuploader/webuploader.js"></script>
+<script src="./App/models/home/scrollbar.js"></script>
+<script src="./App/models/home/base.js"></script>
+<script src="./App/models/home/pageTab.js"></script>
+<script src="./App/models/home/menubar.js"></script>
+<link href="./App/modules/bower_components/summernote-0.8.2-dist/dist/summernote.css" rel="stylesheet">
+<script src="./App/modules/bower_components/summernote-0.8.2-dist/dist/summernote.js"></script>
+<script src="./App/modules/bower_components/underscore/underscore-min.js"></script>
+<script src="./App/modules/components/imageViewer/imageViewer.js"></script>
+<script src="./App/modules/bower_components/messenger/js/messenger.min.js"></script>
+<script src="./App/modules/bower_components/messenger/js/messenger-theme-future.js"></script>
+<link rel="stylesheet" href="./App/modules/bower_components/TreeJs/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="./App/modules/bower_components/TreeJs/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="./App/modules/bower_components/TreeJs/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="./App/modules/bower_components/dialog2/dialog2.js"></script>
+</body>
+</html>

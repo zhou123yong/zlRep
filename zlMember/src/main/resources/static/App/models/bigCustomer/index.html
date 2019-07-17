@@ -1,0 +1,53 @@
+
+<ol class="breadcrumb topnav">
+    <li><i class="glyphicon glyphicon-home"></i> 首页</i></li>
+    <li><i class="glyphicon glyphicon-hand-right"></i> 合作管理</li>
+    <li><i class="glyphicon glyphicon-hand-right"></i> 大客户管理</li>
+    <li><i class="glyphicon glyphicon-hand-right"></i> 新增大客户</li>
+</ol>
+
+<div class="info-panel" style="border-color: white">
+    <!--<h3>新增大客户</h3>-->
+    <div>
+        <!-- Nav tabs -->
+        <!--隐藏-->
+        <ul class="nav nav-tabs" role="tablist" id="bigCustomerTab">
+            <li role="presentation" class="active"><a data-target="#baseInfo" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true" style="display: none">基本信息</a></li>
+            <li role="presentation"><a data-target="#attachment" aria-controls="home" role="tab" data-toggle="tab" style="display: none">资质信息</a></li>
+            <li role="presentation"><a data-target="#contactsInfo" aria-controls="home" role="tab" data-toggle="tab" style="display: none">联系人信息</a></li>
+        </ul>
+
+        <!--放开-->
+        <!--<ul class="nav nav-tabs" role="tablist" id="bigCustomerTab">-->
+            <!--<li role="presentation" class="active"><a data-target="#baseInfo" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">基本信息</a></li>-->
+            <!--<li role="presentation"><a data-target="#attachment" aria-controls="home" role="tab" data-toggle="tab" >资质信息</a></li>-->
+            <!--<li role="presentation"><a data-target="#contactsInfo" aria-controls="home" role="tab" data-toggle="tab" >联系人信息</a></li>-->
+        <!--</ul>-->
+
+        <!-- Tab panes -->
+        <div></div>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="baseInfo">
+                <div class="info-panel" style="border-color: white ;border-top: 2px solid #1ab394;">
+                    <h3>基本信息&nbsp;&nbsp;&nbsp;<i class="fa fa-volume-up">&nbsp;&nbsp;温馨提醒：&nbsp;&nbsp;<span style="color: red">请先选择商户，如果选择商户时找不到，请点击右边绿色新增按钮</span></i></h3>
+                    <div data-ng-include="'App/models/bigCustomer/baseInfo/index.html?t='+systemTime+''" data-ng-controller="bigCustomerBaseController"></div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="attachment">
+                <div class="info-panel" style="border-color: white ;border-top: 2px solid #1ab394;">
+                    <h3>资质信息</h3>
+                    <div data-ng-include="'App/models/bigCustomer/attachment/index.html?t='+systemTime+''" data-ng-controller="bigCustomerAttachmentController"></div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="contactsInfo">
+                <div class="info-panel" style="border-color: white ;border-top: 2px solid #1ab394;">
+                    <h3>联系人信息</h3>
+                    <div data-ng-include="'App/models/bigCustomer/contactsInfo/index.html?t='+systemTime+''" data-ng-controller="bigCustomerContactsController"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

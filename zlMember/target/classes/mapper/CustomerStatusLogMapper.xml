@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ly.mapper..CustomerStatusLogMapper">
+
+    <resultMap id="infoMap" type="com.ly.entity.CustomerStatusLogEntity">
+        <result property="id" column="id"/>
+        <result property="fromStatusId" column="from_status_id"/>
+        <result property="toStatusId" column="to_status_id"/>
+        <result property="fromStatusName" column="from_status_name"/>
+        <result property="toStatusName" column="to_status_name"/>
+        <result property="remark" column="remark"/>
+        <result property="creater" column="creater"/>
+        <result property="createTime" column="create_time"/>
+        <result property="occurTime" column="occur_time"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="projectId" column="project_id"/>
+        <result property="isRepeat" column="isRepeat"/>
+        <result property="nonStatistic" column="nonStatistic"/>
+        <result property="customerManagerId" column="customerManagerId"/>
+        <result property="customerManagerName" column="customerManagerName"/>
+        <result property="isDelete" column="is_delete"/>
+    </resultMap>
+
+    <select id="queryById" resultMap="infoMap" parameterType="int">
+        SELECT
+        *
+        FROM customer_status_log
+        WHERE
+        id = #{id}
+    </select>
+
+    <select id="queryByConditions" resultMap="infoMap" parameterType="map">
+        SELECT *
+        FROM customer_status_log
+        where is_delete = 0
+        <if test="fromStatusId != null and fromStatusId > 0 ">
+            AND from_status_id = #{fromStatusId}
+        </if>
+        <if test="toStatusId != null and toStatusId > 0 ">
+            AND to_status_id = #{toStatusId}
+        </if>
+        <if test="customerId != null and customerId != '' ">
+            AND customer_id = #{customerId}
+        </if>
+        <if test="projectId != null and projectId != '' ">
+            AND project_id = #{projectId}
+        </if>
+        ORDER by occur_time DESC
+    </select>
+
+    <update id="updateIsDelete" parameterType="map">
+        UPDATE customer_status_log
+        SET
+        is_delete = 1
+        where 1 = 1
+        <if test="toStatusId != null and toStatusId > 0 ">
+            AND to_status_id >= #{toStatusId}
+        </if>
+        <if test="customerId != null and customerId != '' ">
+            AND customer_id = #{customerId}
+        </if>
+        <if test="id != null and id > 0 ">
+            AND id = #{id}
+        </if>
+    </update>
+
+    <select id="queryByCustomer" resultMap="infoMap">
+       SELECT customer_id ,project_id FROM customer_status_log
+       WHERE to_status_id IN (1,2,3,4,5,6)
+       AND is_delete = 0
+       GROUP BY customer_id,project_id
+    </select>
+
+    <select id="queryByCustomerId" resultMap="infoMap">
+        SELECT *
+        FROM customer_status_log
+        where is_delete = 0
+        AND customer_id = #{customerId}
+        <if test="toStatusId != null and toStatusId > 0 ">
+            AND to_status_id = #{toStatusId}
+        </if>
+        <if test="projectId != null and projectId > 0 ">
+            AND project_id = #{projectId}
+        </if>
+        AND to_status_id IN (1,2,3,4,5,6)
+        ORDER BY id DESC
+    </select>
+
+</mapper>

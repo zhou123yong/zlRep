@@ -1,0 +1,232 @@
+/* reset start */
+
+body, ul {
+    margin: 0;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+.clearfix:after {
+	content: ".";
+	height: 0;
+	display: block;
+	visibility: hidden;
+	clear: both;
+}
+
+body {
+	font-size: 12px;
+	font-family: tahoma, "Microsoft YaHei", "Hiragino Sans GB", Arial, sans-serif;
+	line-height: 1.42857143;;
+	color: #333;
+}
+
+/* reset end */
+
+html,
+body {
+    height: 100%;
+}
+
+i {
+	font-style: normal;
+	cursor: pointer;
+}
+
+.photo-layer-container {
+    /*background-color: #333;*/
+    height: 100%;
+    padding: 16px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 10000;
+}
+
+.photo-bg-layer {
+    background: rgba(0, 0, 0, .6);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.photo-figure {
+    height: 100%;
+}
+
+.photo-figure-main {
+    height: 100%;
+    margin: 0 auto;
+
+    // 修复在较小的iframe中弹出显示不全的问题
+    // width: 828px;
+    width: 90%;
+    max-width: 864px;
+
+    background: #000;
+    position: relative;
+}
+
+.figure-area {
+	position: absolute;
+	overflow: hidden;
+	height: 862px;
+	width: 100%;
+	text-align: center;
+}
+
+#img-display {
+	position: absolute;
+	display: block;
+	z-index: 100;
+	max-width: none;
+}
+
+.figure-area em {
+	content: '';
+	display: block;
+	height: 30px;
+	width: 30px;
+	position: absolute;
+	top: 47%;
+	border-left: 5px solid rgba(255, 255, 255, 0.6);
+	border-top: 5px solid rgba(255, 255, 255, 0.6);
+	z-index: 200;
+}
+
+.figure-area em:hover {
+	border-left: 5px solid rgba(255, 255, 255, 1);
+	border-top: 5px solid rgba(255, 255, 255, 1);
+	cursor: pointer;
+}
+
+.pre-btn {
+	transform: rotate(-45deg);
+	left: 20px;
+}
+
+.next-btn {
+	transform: rotate(135deg);
+	right: 20px;
+}
+
+.function-area {
+	color: #fff;
+	margin: 10px 0;
+	position: absolute;
+	bottom: 50px;
+	width: 100%;
+}
+
+.function-area > span {
+	font-size: 16px;
+	font-style: normal;
+	margin-left: 8px;
+}
+
+.function-area ul {
+	float: right;
+}
+
+.function-area li {
+	float: left;
+	margin-right: 16px;
+}
+
+.function-area li:last-child {
+	margin-right: 10px;
+}
+
+.thumb-area {
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+}
+
+.thumb-area .thumb-prev:hover, .thumb-area .thumb-next:hover {
+	border-left: 3px solid rgba(255, 255, 255, 1);
+	border-top: 3px solid rgba(255, 255, 255, 1);
+}
+
+.thumb-area .thumb-prev {
+	content: '';
+	display: none;
+	width: 20px;
+	height: 20px;
+	transform: rotate(-45deg);
+	border-left: 3px solid rgba(255, 255, 255 ,.6);
+	border-top: 3px solid rgba(255, 255, 255 ,.6);
+	position: absolute;
+	left: 13px;
+	top: 13px;
+}
+
+.thumb-area .thumb-next {
+	content: '';
+	display: none;
+	width: 20px;
+	height: 20px;
+	transform: rotate(135deg);
+	border-left: 3px solid rgba(255, 255, 255 ,.6);
+	border-top: 3px solid rgba(255, 255, 255 ,.6);
+	position: absolute;
+	right: 13px;
+	top: 13px;
+}
+
+.thumb-area > .thumbList-container {
+	margin: 0 139px;
+	overflow: hidden;
+}
+
+.thumb-area > .thumbList-container > .thumb-list{
+	margin: 0 auto;
+	transition: transform ease .3s;
+}
+
+.thumb-area li {
+	width: 50px;
+	height: 50px;
+	float: left;
+	margin-right: 5px;
+	overflow: hidden;
+	display: block;
+	cursor: pointer;
+	opacity: .6;
+	-webkit-transition: opacity .4s ease;
+    -moz-transition: opacity .4s ease;
+    -o-transition: opacity .4s ease;
+    -ms-transition: opacity .4s ease;
+    transition: opacity .4s ease;
+    box-sizing: border-box;
+}
+
+.thumb-area li.active {
+	border: 2px solid white;
+}
+
+.thumb-area li:hover {
+	opacity: 1;
+}
+
+.rotate-left, .rotate-right {
+	cursor: pointer;
+}
+
+.photo-layer-close {
+	position: absolute;
+	right: -15px;
+	top: -16px;
+	color: rgba(255, 255, 255, .7);
+	z-index: 1000;
+}

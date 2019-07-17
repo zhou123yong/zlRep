@@ -1,0 +1,296 @@
+<style>
+    .table-bordered>tbody>tr>td{
+        border: 1px solid #ddd;
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+
+<div>
+    <div >
+        <div>
+            <button class="btn-sm fa " ng-click="open()">
+                <i class="fa fa-plus"></i> 新增联系人
+            </button>
+        </div>
+
+        <div ng-show="supplierContacterInfos.length>0">
+            <table class="table table-striped table-hover table-bordered" style="text-align: center">
+                <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>职位</th>
+                    <th>职责</th>
+                    <th>手机</th>
+                    <th>固话</th>
+                    <th>传真</th>
+                    <th>QQ</th>
+                    <th>邮箱</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+
+                <tr ng-repeat="c in supplierContacterInfos">
+                    <td>{{c.contacterName}}</td>
+                    <td>{{c.contacterPosition}}</td>
+                    <td>{{c.contacterTypeName}}</td>
+                    <td>{{c.contacterPhone}}</td>
+                    <td>{{c.contacterTel}}</td>
+                    <td>{{c.contacterFax}}</td>
+                    <td>{{c.contacterQQ}}</td>
+                    <td>{{c.contacterMail}}</td>
+                    <td>
+                        <button class="btn btn-success"  ng-click="edit($index)"><i class="glyphicon glyphicon-edit"></i> 编辑</button>
+                        <button  class="btn btn-danger" type="button" ng-click="deleteStudent($index)"><i class="glyphicon glyphicon-trash"></i>删除</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <!--新增大客户联系人-->
+            <div  class="modal fade" id="addContacter" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document" >
+                    <div class="modal-content">
+                        <div>
+                            <div class="modal-header">
+                                <span style="font-size: 14px"><b>新增大客户联系人</b></span>
+                                <em class="fa fa-close" ng-click="hide()"></em>
+                            </div>
+                            <div class="modal-body" >
+                                <form class="form-horizontal" id="addBank" role="form" ng-submit="addContacter()">
+                                        <div>
+                                            <ul>
+                                                <li class="fill-line">
+                                                    <label> 姓名：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text" id="contacterName1" ng-model="model.contacterName"  required/>
+                                                    </div>
+                                                    <span style="color: red">*</span>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> 职位：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text"  ng-model="model.contacterPosition"  />
+                                                    </div>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> 职责：</label>
+                                                    <div class="fill-wrapper">
+                                                        <select class="fill-item" ng-model="model.contacterDuty" id="contacterDuty"  required>
+                                                            <option value="">--- 请选择 ---</option>
+                                                            <option ng-repeat="c in contacterDutyList" value="{{c.typeId}}" >{{c.typeName}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <span style="color: red">*</span>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> 手机：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text" onkeyup="this.value=this.value.replace(/\D/g,'').replace(/....(?!$)/g,'$& ')"
+                                                               ng-model="model.contacterPhone" maxlength="13"  required />
+                                                    </div>
+                                                    <span style="color: red">*</span>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> 固话：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text"  ng-model="model.contacterTel"  />
+                                                    </div>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> 传真：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text"  ng-model="model.contacterFax"  />
+                                                    </div>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> QQ：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text"  ng-model="model.contacterQQ"  />
+                                                    </div>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> 邮箱：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text"  ng-model="model.contacterMail"  />
+                                                    </div>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                        <div class="submit-line" >
+                                            <button  class="next-step" type="button" ng-click="hide()"><span>取消</span><i class="fa fa-floppy-o"></i></button>
+
+                                            <button  class="next-step" type="submit" ><span>保存</span><i class="fa fa-floppy-o"></i></button>
+                                        </div>
+                                    <!--</div>-->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--新增大客户联系人结束-->
+
+            <!--编辑供应商联系人-->
+            <div  class="modal fade" style="width: 90%;margin-left: auto;margin-right: auto; margin-top: 130px;"  id="editContacter" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document" >
+                    <div class="modal-content">
+                        <div>
+                            <div class="modal-header">
+                                <span style="font-size: 14px"><b>编辑供应商联系人</b></span>
+                                <em class="fa fa-close" ng-click="backEdit()"></em>
+                            </div>
+                            <div class="modal-body" >
+                                <form class="form-horizontal" id="editBank" role="form" ng-submit="editContacter()">
+                                    <div  class="info-panel last">
+                                        <div>
+                                            <ul>
+                                                <li class="fill-line">
+                                                    <label> 姓名：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text" id="contacterName"  ng-model="contacter.contacterName"  required/>
+                                                    </div>
+                                                    <span style="color: red">*</span>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> 职位：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text"  ng-model="contacter.contacterPosition"  />
+                                                    </div>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> 职责：</label>
+                                                    <div class="fill-wrapper">
+                                                        <select class="fill-item" ng-model="contacter.contacterDuty" id="contacterDutys" required>
+                                                            <option value="">--- 请选择 ---</option>
+                                                            <option ng-repeat="c in contacterDutyList " value="{{c.typeName}}" >{{c.typeName}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <span style="color: red">*</span>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> 手机：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text"  onkeyup="this.value=this.value.replace(/\D/g,'').replace(/....(?!$)/g,'$& ')"
+                                                               ng-model="contacter.contacterPhone" maxlength="13" required />
+                                                    </div>
+                                                    <span style="color: red">*</span>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> 固话：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text"  ng-model="contacter.contacterTel"  />
+                                                    </div>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> 传真：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text"  ng-model="contacter.contacterFax"  />
+                                                    </div>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> QQ：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text"  ng-model="contacter.contacterQQ"  />
+                                                    </div>
+                                                </li>
+                                                <li class="fill-line">
+                                                    <label> 邮箱：</label>
+                                                    <div class="fill-wrapper">
+                                                        <input class="fill-item" type="text"  ng-model="contacter.contacterMail"  />
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="submit-line" >
+                                            <button  class="next-step" type="button" ng-click="hide()"><span>取消</span><i class="fa fa-floppy-o"></i></button>
+
+                                            <button  class="next-step" type="submit" ><span>保存</span><i class="fa fa-floppy-o"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--编辑供应商联系人结束-->
+        </div>
+        <!--修改前页面-->
+        <div>
+
+            <form class="form-horizontal" id="addBank1" role="form" ng-submit="addBigCustomer()">
+                <div class="submit-line">
+                    <button type="button" class="next-step" ng-click="first()"><span>上一步</span><i class="fa fa-arrow-circle-o-left"></i></button>
+                    <button  class="next-step" type="submit" id="addBtn"><span>提交</span><i class="fa fa-floppy-o"></i></button>
+                </div>
+
+                <div ng-show="success == true" style="text-align: center;">
+                    <img src="./App/modules/imgs/item/loading-72px.gif">提交中请等待。。。
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--新增完成弹框-->
+<div class="modal-mask" ng-show="applyContract">
+    <div class="modal-wrapper">
+        <div class="modal-container" style="width: 500px;">
+            <div class="modal-header">
+                <div style="font-weight: bold">提示信息</div>
+                <em class="fa fa-close" ng-click="hideModal()" ></em>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center">
+                    <span class="glyphicon glyphicon-ok" style="color: green;font-size: 36px;"></span>
+                    <span style="font-size: 20px;">大客户添加成功</span>
+                </div>
+
+                <div class="submit-line" >
+                    <button  class="next-step" type="button" ng-click="applyCon()"><span>去申请合同</span></button>
+
+                    <button  class="next-step" type="submit" ng-click="addNewSupplier()" style="margin-left: 40px;"><span>继续添加</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-show="false" >
+    <table>
+        <thead>
+        <tr>
+            <td>姓名</td>
+            <td>职位</td>
+            <td>职责</td>
+            <td>手机</td>
+            <td>固话</td>
+            <td>传真</td>
+            <td>QQ</td>
+            <td>邮箱</td>
+            <td>操作</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="c in contractContacterInfos">
+            <td>{{c.contacterName}}</td>
+            <td>{{c.contacterPosition}}</td>
+            <td>{{c.contacterDuty.typeId}}</td>
+            <td>{{c.contacterPhone}}</td>
+            <td>{{c.contacterTel}}</td>
+            <td>{{c.contacterFax}}</td>
+            <td>{{c.contacterQQ}}</td>
+            <td>{{c.contacterMail}}</td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</div>
